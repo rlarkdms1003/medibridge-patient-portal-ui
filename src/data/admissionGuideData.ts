@@ -86,6 +86,7 @@ export const admissionContactInfo = {
 };
 
 export const relatedLinks = [
+  { label: '입원생활안내', href: '/inpatient/life', icon: 'hotel' },
   { label: '퇴원절차', href: '/discharge/guide', icon: 'logout' },
   { label: '진료안내', href: '/outpatient/guide', icon: 'medical_services' },
   { label: '예약안내', href: '/reservation/guide', icon: 'event_note' },

@@ -89,6 +89,7 @@ export const dischargeContactInfo = {
 
 export const relatedLinks = [
   { label: '입원절차', href: '/admission/guide', icon: 'bed' },
+  { label: '입원생활안내', href: '/inpatient/life', icon: 'hotel' },
   { label: '진료안내', href: '/outpatient/guide', icon: 'medical_services' },
   { label: '입·퇴원 FAQ', href: '/faq', icon: 'help' },
 ];

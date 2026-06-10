@@ -13,6 +13,7 @@ import ExternalFacilitiesPage from './pages/ExternalFacilitiesPage';
 import FaqPage from './pages/FaqPage';
 import GuestLoginPage from './pages/GuestLoginPage';
 import HomePage from './pages/HomePage';
+import InpatientLifeGuidePage from './pages/InpatientLifeGuidePage';
 import InternalFacilitiesPage from './pages/InternalFacilitiesPage';
 import LoginPage from './pages/LoginPage';
 import NoticeDetailPage from './pages/NoticeDetailPage';
@@ -31,6 +32,7 @@ export default function App() {
       <Route path="/outpatient/guide" element={<OutpatientGuidePage />} />
       <Route path="/admission/guide" element={<AdmissionGuidePage />} />
       <Route path="/discharge/guide" element={<DischargeGuidePage />} />
+      <Route path="/inpatient/life" element={<InpatientLifeGuidePage />} />
       <Route path="/reservation/confirm" element={<ReservationConfirmPage />} />
       <Route path="/directions" element={<DirectionsPage />} />
       <Route path="/notices" element={<NoticesPage />} />
