@@ -19,6 +19,7 @@ import LoginPage from './pages/LoginPage';
 import NonCoveredFeePage from './pages/NonCoveredFeePage';
 import NoticeDetailPage from './pages/NoticeDetailPage';
 import NoticesPage from './pages/NoticesPage';
+import MedicalBillPage from './pages/MedicalBillPage';
 import MedicalRecordsCopyPage from './pages/MedicalRecordsCopyPage';
 import MyPage from './pages/MyPage';
 import SignupPage from './pages/SignupPage';
@@ -44,6 +45,7 @@ export default function App() {
       <Route path="/faq" element={<FaqPage />} />
       <Route path="/doctors" element={<DoctorsPage />} />
       <Route path="/documents/diagnosis" element={<DiagnosisCertificatePage />} />
+      <Route path="/documents/medical-bill" element={<MedicalBillPage />} />
       <Route path="/documents/medical-records" element={<MedicalRecordsCopyPage />} />
       <Route path="/facilities/internal" element={<InternalFacilitiesPage />} />
       <Route path="/facilities/external" element={<ExternalFacilitiesPage />} />

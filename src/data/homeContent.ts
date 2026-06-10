@@ -73,7 +73,7 @@ export const navMenus: NavMenuItem[] = [
         href: '/documents/diagnosis',
         children: [
           { label: '진단서발급', href: '/documents/diagnosis' },
-          { label: '진료비계산서', href: '#' },
+          { label: '진료비계산서', href: '/documents/medical-bill' },
           { label: '의무기록 및 영상검사 사본 발급', href: '/documents/medical-records' },
         ],
       },
