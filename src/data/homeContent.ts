@@ -38,8 +38,8 @@ export const navMenus: NavMenuItem[] = [
         label: '외래진료안내',
         href: '#',
         children: [
-          { label: '예약안내', href: '#' },
-          { label: '진료안내', href: '#' },
+          { label: '예약안내', href: '/reservation/guide' },
+          { label: '진료안내', href: '/outpatient/guide' },
           { label: '비급여 진료비용', href: '#' },
         ],
       },

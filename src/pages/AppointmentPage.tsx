@@ -115,8 +115,8 @@ export default function AppointmentPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
-            <div className="space-y-gutter lg:col-span-2">
+          <div className="grid grid-cols-1 gap-gutter lg:grid-cols-[2.2fr_1fr]">
+            <div className="min-w-0 space-y-gutter">
               <section className="border border-hairline bg-canvas-white p-6 md:p-8">
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
                   <h2 className="font-headline-2 text-headline-2 text-ink-black">의료진 · 진료일정 선택</h2>
@@ -153,10 +153,16 @@ export default function AppointmentPage() {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full min-w-[640px] border-collapse">
+                  <table className="w-full table-fixed border-collapse">
+                    <colgroup>
+                      <col className="w-[15%]" />
+                      {calendarDates.map((date) => (
+                        <col key={date.toISOString()} />
+                      ))}
+                    </colgroup>
                     <thead>
                       <tr>
-                        <th className="sticky left-0 z-10 border border-hairline bg-surface-container-low px-4 py-3 text-left font-body-sm text-body-sm font-semibold text-ink-black">
+                        <th className="sticky left-0 z-10 border border-hairline bg-surface-container-low px-2 py-2 text-left font-body-sm text-body-sm font-semibold text-ink-black">
                           의료진
                         </th>
                         {calendarDates.map((date) => {
@@ -165,7 +171,7 @@ export default function AppointmentPage() {
                           return (
                             <th
                               key={date.toISOString()}
-                              className={`min-w-[72px] border px-2 py-3 text-center font-body-sm text-body-sm font-semibold ${
+                              className={`border px-1 py-2 text-center font-body-sm text-body-sm font-semibold ${
                                 todayColumn
                                   ? 'border-primary bg-primary text-on-primary'
                                   : 'border-hairline bg-surface-container-low text-ink-black'
@@ -188,7 +194,7 @@ export default function AppointmentPage() {
 
                         return (
                           <tr key={doctor.id}>
-                            <td className="sticky left-0 z-10 border border-hairline bg-canvas-white px-4 py-3">
+                            <td className="sticky left-0 z-10 border border-hairline bg-canvas-white px-2 py-2">
                               <button
                                 className={`w-full text-left transition-colors ${
                                   isDoctorSelected ? 'text-primary' : 'text-ink-black hover:text-primary'
@@ -196,11 +202,11 @@ export default function AppointmentPage() {
                                 type="button"
                                 onClick={() => handleDoctorSelect(doctor.id)}
                               >
-                                <span className="block font-title text-title">{doctor.name}</span>
-                                <span className="mt-0.5 block font-body-sm text-body-sm text-ink-secondary">
-                                  {doctor.title}
+                                <span className="block font-body-sm text-body-sm font-semibold leading-tight">
+                                  {doctor.name}{' '}
+                                  <span className="font-normal text-ink-secondary">{doctor.title}</span>
                                 </span>
-                                <span className="mt-0.5 block font-body-sm text-body-sm text-ink-muted">
+                                <span className="mt-0.5 block truncate font-body-sm text-body-sm text-ink-muted">
                                   {doctor.specialty}
                                 </span>
                               </button>
@@ -212,23 +218,24 @@ export default function AppointmentPage() {
                                 selectedDate?.toDateString() === date.toDateString();
 
                               return (
-                                <td key={date.toISOString()} className="border border-hairline p-1 text-center">
+                                <td
+                                  key={date.toISOString()}
+                                  className="relative min-h-10 border border-hairline p-0 text-center"
+                                >
                                   <button
                                     aria-label={`${doctor.name} ${formatDateLabel(date)} 예약`}
-                                    className={`flex h-12 w-full items-center justify-center transition-colors ${
+                                    className={`absolute inset-0 flex items-center justify-center transition-colors ${
                                       !available
                                         ? 'cursor-not-allowed bg-surface-container text-ink-muted'
                                         : isSelected
                                           ? 'bg-primary text-on-primary'
-                                          : 'bg-canvas-white text-primary hover:bg-primary-fixed'
+                                          : 'bg-canvas-white hover:bg-primary-fixed'
                                     }`}
                                     disabled={!available}
                                     type="button"
                                     onClick={() => handleSlotSelect(doctor.id, date, dateIndex)}
                                   >
-                                    {available ? (
-                                      <Icon className="text-xl" name={isSelected ? 'check_circle' : 'circle'} />
-                                    ) : (
+                                    {!available && (
                                       <span className="font-body-sm text-body-sm">-</span>
                                     )}
                                   </button>
@@ -243,7 +250,7 @@ export default function AppointmentPage() {
                 </div>
 
                 <p className="mt-4 font-body-sm text-body-sm text-ink-secondary">
-                  의료진 이름을 클릭하거나, 예약 가능한 일정(○)을 클릭하여 의료진과 날짜를 함께 선택할 수
+                  의료진 이름을 클릭하거나, 예약 가능한 일정을 클릭하여 의료진과 날짜를 함께 선택할 수
                   있습니다.
                 </p>
               </section>
