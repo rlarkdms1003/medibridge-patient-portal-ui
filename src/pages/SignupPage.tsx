@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Icon from '../components/Icon';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function SignupPage() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -12,17 +15,73 @@ export default function SignupPage() {
   const [phone, setPhone] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [error, setError] = useState('');
+
+  const handlePhoneChange = (value: string) => {
+    setPhone(value);
+    setIsCodeSent(false);
+    setVerificationCode('');
+    setIsPhoneVerified(false);
+    setError('');
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!name.trim()) {
+      setError('이름을 입력해 주세요.');
+      return;
+    }
+
+    if (!userId.trim()) {
+      setError('아이디를 입력해 주세요.');
+      return;
+    }
+
+    if (password.length < 4) {
+      setError('비밀번호는 4자 이상 입력해 주세요.');
+      return;
+    }
+
+    if (!phone.trim()) {
+      setError('휴대전화번호를 입력해 주세요.');
+      return;
+    }
+
+    if (!isPhoneVerified) {
+      setError('휴대전화 인증을 완료해 주세요.');
+      return;
+    }
+
+    login(
+      {
+        name: name.trim(),
+        userId: userId.trim(),
+        phone: phone.trim(),
+        loginType: 'member',
+      },
+      password,
+    );
+    navigate('/');
   };
 
   const handleSendCode = () => {
     if (!phone.trim()) return;
     setIsCodeSent(true);
+    setVerificationCode('');
+    setIsPhoneVerified(false);
+    setError('');
   };
 
-  const handleConfirmCode = () => {};
+  const handleConfirmCode = () => {
+    if (!verificationCode.trim()) {
+      setError('인증번호를 입력해 주세요.');
+      return;
+    }
+    setIsPhoneVerified(true);
+    setError('');
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-ink-black antialiased selection:bg-primary-container selection:text-white">
@@ -101,7 +160,7 @@ export default function SignupPage() {
                   placeholder="휴대전화번호를 입력하세요"
                   type="tel"
                   value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
+                  onChange={(event) => handlePhoneChange(event.target.value)}
                   autoComplete="tel"
                 />
                 <button
@@ -122,7 +181,10 @@ export default function SignupPage() {
                     type="text"
                     inputMode="numeric"
                     value={verificationCode}
-                    onChange={(event) => setVerificationCode(event.target.value)}
+                    onChange={(event) => {
+                      setVerificationCode(event.target.value);
+                      setIsPhoneVerified(false);
+                    }}
                     autoComplete="one-time-code"
                   />
                   <button
@@ -135,7 +197,15 @@ export default function SignupPage() {
                   </button>
                 </div>
               )}
+              {isPhoneVerified && (
+                <p className="mt-2 flex items-center gap-1 font-body-sm text-body-sm text-primary">
+                  <Icon className="text-base" name="check_circle" />
+                  휴대전화 인증이 완료되었습니다.
+                </p>
+              )}
             </div>
+
+            {error && <p className="font-body-sm text-body-sm text-error">{error}</p>}
 
             <button
               className="w-full bg-secondary px-6 py-4 font-button text-button text-on-secondary transition-opacity hover:opacity-90 active:opacity-80"

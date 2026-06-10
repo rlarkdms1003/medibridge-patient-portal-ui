@@ -78,13 +78,7 @@ export default function MedicalBillPage() {
                             {row.category}
                           </td>
                           <td className="border border-hairline px-4 py-3 font-body-md text-body-md text-ink-secondary">
-                            {row.category === '인터넷' ? (
-                              <Link className="text-primary underline-offset-2 hover:underline" to="/mypage">
-                                {row.location}
-                              </Link>
-                            ) : (
-                              row.location
-                            )}
+                            {row.location}
                           </td>
                           <td className="border border-hairline px-4 py-3 font-body-sm text-body-sm text-ink-secondary">
                             {row.note ?? '-'}

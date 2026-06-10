@@ -66,53 +66,54 @@ export default function NonCoveredFeePage() {
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">
               <SectionCard title="비급여 항목 조회">
-                <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="relative max-w-md flex-1">
-                    <Icon
-                      className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted"
-                      name="search"
-                    />
-                    <input
-                      className="w-full border border-hairline py-3 pl-10 pr-4 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary"
-                      placeholder="항목명 검색"
-                      type="search"
-                      value={searchQuery}
-                      onChange={(event) => setSearchQuery(event.target.value)}
-                    />
+                <div className="mb-6">
+                  <div className="overflow-x-auto">
+                    <div className="inline-flex min-w-max flex-col gap-4">
+                      <div className="relative w-full">
+                        <Icon
+                          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted"
+                          name="search"
+                        />
+                        <input
+                          className="w-full border border-hairline py-3 pl-10 pr-4 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary"
+                          placeholder="항목명 검색"
+                          type="search"
+                          value={searchQuery}
+                          onChange={(event) => setSearchQuery(event.target.value)}
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          className={`shrink-0 whitespace-nowrap border px-3 py-2 font-body-sm text-body-sm transition-colors ${
+                            activeCategory === 'all'
+                              ? 'border-primary bg-primary text-on-primary'
+                              : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
+                          }`}
+                          type="button"
+                          onClick={() => setActiveCategory('all')}
+                        >
+                          전체
+                        </button>
+                        {nonCoveredFeeCategories.map((category) => (
+                          <button
+                            key={category.id}
+                            className={`shrink-0 whitespace-nowrap border px-3 py-2 font-body-sm text-body-sm transition-colors ${
+                              activeCategory === category.id
+                                ? 'border-primary bg-primary text-on-primary'
+                                : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
+                            }`}
+                            type="button"
+                            onClick={() => setActiveCategory(category.id)}
+                          >
+                            {category.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <p className="font-body-sm text-body-sm text-ink-secondary">
+                  <p className="mt-4 font-body-sm text-body-sm text-ink-secondary">
                     총 {filteredItems.length}건
                   </p>
-                </div>
-
-                <div className="mb-6 overflow-x-auto">
-                  <div className="flex min-w-max gap-2">
-                    <button
-                      className={`shrink-0 whitespace-nowrap border px-3 py-2 font-body-sm text-body-sm transition-colors ${
-                        activeCategory === 'all'
-                          ? 'border-primary bg-primary text-on-primary'
-                          : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
-                      }`}
-                      type="button"
-                      onClick={() => setActiveCategory('all')}
-                    >
-                      전체
-                    </button>
-                    {nonCoveredFeeCategories.map((category) => (
-                      <button
-                        key={category.id}
-                        className={`shrink-0 whitespace-nowrap border px-3 py-2 font-body-sm text-body-sm transition-colors ${
-                          activeCategory === category.id
-                            ? 'border-primary bg-primary text-on-primary'
-                            : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
-                        }`}
-                        type="button"
-                        onClick={() => setActiveCategory(category.id)}
-                      >
-                        {category.label}
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="overflow-x-auto">

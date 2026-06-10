@@ -16,11 +16,12 @@ import {
   timeSlots,
 } from '../data/appointmentData';
 import { useReservations } from '../contexts/ReservationsContext';
+import { isTimeSlotTaken } from '../data/reservationHistoryData';
 
 type TimePeriod = 'morning' | 'afternoon';
 
 export default function AppointmentPage() {
-  const { addReservation } = useReservations();
+  const { reservations, addReservation } = useReservations();
   const initialCalendarStart = useMemo(() => getInitialCalendarStart(), []);
   const [calendarStart, setCalendarStart] = useState(initialCalendarStart);
   const calendarDates = useMemo(() => getCalendarDates(calendarStart, 10), [calendarStart]);
@@ -72,18 +73,26 @@ export default function AppointmentPage() {
   };
 
   const handleOpenConfirmModal = () => {
-    if (!canConfirm) return;
+    if (!canSubmitBooking) return;
     setIsBookingComplete(false);
     setIsConfirmModalOpen(true);
   };
 
   const handleCloseConfirmModal = () => {
+    if (isBookingComplete) {
+      setSelectedTime('');
+    }
     setIsConfirmModalOpen(false);
     setIsBookingComplete(false);
   };
 
   const handleSubmitBooking = () => {
     if (!canConfirm || !selectedDoctor || !selectedDate || !selectedTime) return;
+
+    const dateLabel = formatDate(selectedDate);
+    if (isTimeSlotTaken(reservations, selectedDoctor.name, dateLabel, selectedTime)) {
+      return;
+    }
 
     addReservation({
       department: SPECIALTY_LABEL,
@@ -113,6 +122,14 @@ export default function AppointmentPage() {
   }, [isConfirmModalOpen]);
 
   const canConfirm = Boolean(doctorId && selectedDate && selectedTime);
+
+  const formattedSelectedDate = selectedDate ? formatDate(selectedDate) : '';
+
+  const isSelectedTimeTaken =
+    Boolean(selectedDoctor && formattedSelectedDate && selectedTime) &&
+    isTimeSlotTaken(reservations, selectedDoctor!.name, formattedSelectedDate, selectedTime);
+
+  const canSubmitBooking = canConfirm && !isSelectedTimeTaken;
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-ink-black antialiased selection:bg-primary-container selection:text-white">
@@ -295,24 +312,44 @@ export default function AppointmentPage() {
                       ))}
                     </div>
                     <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
-                      {timeSlots[timePeriod].map((time) => (
-                        <button
-                          key={time}
-                          className={`border px-3 py-3 font-body-md text-body-md transition-colors ${
-                            selectedTime === time
-                              ? 'border-primary bg-primary text-on-primary'
-                              : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
-                          }`}
-                          type="button"
-                          onClick={() => {
-                            setSelectedTime(time);
-                            setIsConfirmModalOpen(false);
-                            setIsBookingComplete(false);
-                          }}
-                        >
-                          {time}
-                        </button>
-                      ))}
+                      {timeSlots[timePeriod].map((time) => {
+                        const isTaken =
+                          selectedDoctor &&
+                          isTimeSlotTaken(
+                            reservations,
+                            selectedDoctor.name,
+                            formattedSelectedDate,
+                            time,
+                          );
+
+                        return (
+                          <button
+                            key={time}
+                            aria-label={
+                              isTaken
+                                ? `${time} 선택 불가`
+                                : `${time} 선택`
+                            }
+                            className={`border px-3 py-3 font-body-md text-body-md transition-colors ${
+                              isTaken
+                                ? 'cursor-not-allowed border-hairline bg-surface-container text-ink-muted'
+                                : selectedTime === time
+                                  ? 'border-primary bg-primary text-on-primary'
+                                  : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
+                            }`}
+                            disabled={isTaken}
+                            type="button"
+                            onClick={() => {
+                              if (isTaken) return;
+                              setSelectedTime(time);
+                              setIsConfirmModalOpen(false);
+                              setIsBookingComplete(false);
+                            }}
+                          >
+                            {time}
+                          </button>
+                        );
+                      })}
                     </div>
                   </>
                 ) : (
@@ -348,7 +385,7 @@ export default function AppointmentPage() {
 
               <button
                 className="mt-6 w-full bg-secondary px-6 py-4 font-button text-button text-on-secondary transition-opacity hover:opacity-90 active:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
-                disabled={!canConfirm}
+                disabled={!canSubmitBooking}
                 type="button"
                 onClick={handleOpenConfirmModal}
               >
@@ -373,7 +410,7 @@ export default function AppointmentPage() {
       </PageMain>
       <Footer />
 
-      {isConfirmModalOpen && canConfirm && selectedDoctor && selectedDate && (
+      {isConfirmModalOpen && canSubmitBooking && selectedDoctor && selectedDate && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-black/50 px-margin-mobile py-8"
           role="presentation"

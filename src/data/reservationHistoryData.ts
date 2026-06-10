@@ -151,3 +151,18 @@ export function createReservation(
     canCancel: true,
   };
 }
+
+export function isTimeSlotTaken(
+  reservations: Reservation[],
+  doctorName: string,
+  date: string,
+  time: string,
+): boolean {
+  return reservations.some(
+    (reservation) =>
+      reservation.status === 'scheduled' &&
+      reservation.doctorName === doctorName &&
+      reservation.date === date &&
+      reservation.time === time,
+  );
+}

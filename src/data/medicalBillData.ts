@@ -23,11 +23,6 @@ export const reissueLocations: ReissueLocationRow[] = [
     location: '2층 원무과 창구, 입·퇴원 수속 앞 키오스크',
     note: '평일 09:00 ~ 18:00',
   },
-  {
-    category: '인터넷',
-    location: '마이페이지에서 진료비 내역 조회 및 영수증 출력',
-    note: '회원 로그인 후 이용 가능',
-  },
 ];
 
 export const reissueNotes = [
