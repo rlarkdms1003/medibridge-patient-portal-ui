@@ -1,193 +1,110 @@
 # MediBridge Patient Portal
 
-MediBridge 재활정형외과 환자 포털 UI (React + Vite + Tailwind)
+**MediBridge 재활정형외과** 환자를 위한 웹 포털 UI입니다.  
+예약·진료 안내·증명서 발급 안내·마이페이지 등 병원 이용에 필요한 정보와 기능을 한곳에서 제공합니다.
 
-> 상세 디자인 스펙은 [docs/DESIGN.md](./docs/DESIGN.md)와 동일합니다.
+> 디자인 시스템 상세 가이드는 [docs/DESIGN.md](./docs/DESIGN.md)를 참고하세요.
 
 ---
-name: Medical Trust & Accessibility
-colors:
-  surface: '#f8f9fa'
-  surface-dim: '#d9dadb'
-  surface-bright: '#f8f9fa'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f3f4f5'
-  surface-container: '#edeeef'
-  surface-container-high: '#e7e8e9'
-  surface-container-highest: '#e1e3e4'
-  on-surface: '#191c1d'
-  on-surface-variant: '#444651'
-  inverse-surface: '#2e3132'
-  inverse-on-surface: '#f0f1f2'
-  outline: '#757682'
-  outline-variant: '#c5c5d3'
-  surface-tint: '#4059aa'
-  primary: '#00236f'
-  on-primary: '#ffffff'
-  primary-container: '#1e3a8a'
-  on-primary-container: '#90a8ff'
-  inverse-primary: '#b6c4ff'
-  secondary: '#565e74'
-  on-secondary: '#ffffff'
-  secondary-container: '#dae2fd'
-  on-secondary-container: '#5c647a'
-  tertiary: '#00128d'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#001ec9'
-  on-tertiary-container: '#9ba5ff'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#dce1ff'
-  primary-fixed-dim: '#b6c4ff'
-  on-primary-fixed: '#00164e'
-  on-primary-fixed-variant: '#264191'
-  secondary-fixed: '#dae2fd'
-  secondary-fixed-dim: '#bec6e0'
-  on-secondary-fixed: '#131b2e'
-  on-secondary-fixed-variant: '#3f465c'
-  tertiary-fixed: '#dfe0ff'
-  tertiary-fixed-dim: '#bdc2ff'
-  on-tertiary-fixed: '#000964'
-  on-tertiary-fixed-variant: '#1129d0'
-  background: '#f8f9fa'
-  on-background: '#191c1d'
-  surface-variant: '#e1e3e4'
-  ink-black: '#111827'
-  ink-secondary: '#666666'
-  ink-muted: '#999999'
-  hairline: '#e1e5eb'
-  canvas-white: '#ffffff'
-typography:
-  display-1:
-    fontFamily: Noto Sans KR
-    fontSize: 36px
-    fontWeight: '700'
-    lineHeight: '1.3'
-    letterSpacing: -0.02rem
-  headline-1:
-    fontFamily: Noto Sans KR
-    fontSize: 26px
-    fontWeight: '700'
-    lineHeight: '1.4'
-    letterSpacing: '0'
-  headline-1-mobile:
-    fontFamily: Noto Sans KR
-    fontSize: 22px
-    fontWeight: '700'
-    lineHeight: '1.4'
-    letterSpacing: '0'
-  headline-2:
-    fontFamily: Noto Sans KR
-    fontSize: 20px
-    fontWeight: '600'
-    lineHeight: '1.4'
-    letterSpacing: '0'
-  title:
-    fontFamily: Noto Sans KR
-    fontSize: 18px
-    fontWeight: '600'
-    lineHeight: '1.4'
-    letterSpacing: '0'
-  body-md:
-    fontFamily: Noto Sans KR
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: '1.6'
-    letterSpacing: '0'
-  body-sm:
-    fontFamily: Noto Sans KR
-    fontSize: 14px
-    fontWeight: '400'
-    lineHeight: '1.5'
-    letterSpacing: '0'
-  button:
-    fontFamily: Noto Sans KR
-    fontSize: 16px
-    fontWeight: '700'
-    lineHeight: '1.4'
-    letterSpacing: '0'
-  eyebrow:
-    fontFamily: Noto Sans KR
-    fontSize: 13px
-    fontWeight: '600'
-    lineHeight: '1.3'
-    letterSpacing: 0.02rem
-rounded:
-  sm: 0.25rem
-  DEFAULT: 0.5rem
-  md: 0.75rem
-  lg: 1rem
-  xl: 1.5rem
-  full: 9999px
-spacing:
-  grid-unit: 8px
-  container-max: 1320px
-  container-min: 1200px
-  margin-desktop: 40px
-  margin-mobile: 16px
-  gutter: 24px
+
+## 주요 기능
+
+### 진료 예약
+- **인터넷 진료예약** — 의료진·일정·시간 선택 후 예약 확정
+- **예약 확인/취소** — 예정·완료·취소 내역 조회 및 취소
+- **마이페이지** — 다가오는 예약 요약, 예약 완료 시 자동 반영
+
+### 이용 안내
+- 외래·입원·퇴원·입원생활·문병·오시는 길
+- 의료진 소개, 공지사항, FAQ
+- 원내/외부 편의시설, 비급여 진료비용
+
+### 신청·발급 안내
+- 진단서·진료비 계산서·의무기록 사본 발급 절차 및 구비 서류 안내
+
+### 회원
+- 회원/비회원 로그인, 회원가입
+- 마이페이지 — 예약 현황, 진료 이력, 회원정보·비밀번호 관리
+
 ---
 
-## Brand & Style
-The design system for this patient-centric medical portal is anchored in **Medical Trust** and **Digital Accessibility**. It prioritizes clarity, reliability, and ease of use for a diverse demographic, including elderly patients and those with visual impairments.
+## 기술 스택
 
-The visual style is a blend of **Corporate Modernism** and **Functional Minimalism**. It avoids trendy, organic shapes in favor of a structured, square-based layout that projects stability. The interface utilizes a high-contrast environment with generous whitespace to eliminate cognitive load and ensure that critical medical tasks—such as appointment booking and document issuance—are immediately identifiable.
+| 구분 | 기술 |
+|------|------|
+| Framework | React 19 |
+| Language | TypeScript |
+| Build | Vite 6 |
+| Routing | React Router 7 |
+| Styling | Tailwind CSS 3 |
+| Font | Noto Sans KR, Material Symbols |
 
-## Colors
-The color palette is designed for maximum legibility and functional signaling.
-- **Primary (Deep Blue):** Reserved exclusively for core patient tasks and primary Call-to-Action (CTA) buttons.
-- **Secondary (Midnight Slate):** Used for structural grounding, such as the Global Navigation Bar (GNB) and section headers.
-- **Tertiary (Active Blue):** A high-visibility shade used solely for interactive states like hover and focus.
-- **Neutral (Clinical Soft):** A refined light gray for dashboard backgrounds and secondary surfaces.
+백엔드 API 없이 **프론트엔드 단독**으로 동작하며, 예약·회원 데이터는 `localStorage`와 mock 데이터(`src/data/`)를 사용합니다.
 
-**Accessibility Standard:** All text-to-background combinations must maintain a minimum contrast ratio of 4.5:1. Primary content uses "True Ink Charcoal" (#111827) to ensure high-performance readability across all display types.
+---
 
-## Typography
-The system employs a hybrid typography stack: **Noto Sans KR** for all Korean text to ensure clean rendering, and **Helvetica/Arial** for English characters and numerals to maintain a professional, clinical feel.
+## 시작하기
 
-- **Body Text:** A mandatory line-height of 1.6x is enforced for the `body-md` level to assist elderly users and prevent visual crowding.
-- **Hierarchy:** Headlines are bold and clear to facilitate quick scanning of medical information.
-- **Numbers:** In data-heavy contexts (like billings or results), system sans-serif fonts are preferred for their tabular alignment properties.
+### 요구 사항
+- Node.js 18+
+- npm
 
-## Layout & Spacing
-This design system is built on a rigorous **8px grid system**. All padding, margins, and component dimensions must be multiples of 8.
+### 설치 및 실행
 
-- **Grid Model:** A 12-column fluid grid within a fixed container range of 1200px to 1320px for desktop. 
-- **Quick Task Matrix:** The central dashboard uses a 4-column layout for high-priority actions.
-- **Touch Targets:** For accessibility, interactive elements in the main navigation or quick panels must maintain a minimum hit area of 120px x 120px to accommodate users with limited motor precision.
-- **Reflow:** On mobile devices, the 4-column matrix collapses to a 2x2 grid, and horizontal margins reduce to 16px.
+```bash
+# 의존성 설치
+npm install
 
-## Elevation & Depth
-Depth is used sparingly to maintain the platform's authoritative and public-service character. 
+# 개발 서버 (http://localhost:5173)
+npm run dev
 
-- **Level 0 (Flat):** All data tables, forms, and secondary content blocks are completely flat, using 1px `hairline` borders for separation.
-- **Level 1 (Raised):** Applied to the main 'Quick Task' cards and doctor profile cards. Uses a very soft, diffused shadow (`rgba(0,0,0,0.05)`) with a 12px blur to suggest interactivity.
-- **Level 2 (Overlay):** Reserved for critical focus moments, such as appointment calendars or consent forms. These use a darker scrim to dim the background and focus the user's attention entirely on the task at hand.
+# 프로덕션 빌드
+npm run build
 
-## Shapes
-The shape language is primarily **square-based** to evoke professional stability. 
+# 빌드 결과 미리보기
+npm run preview
+```
 
-- **Sharp (0px):** Mandatory for all data tables, input fields, and the footer. This reinforces the "official" and "formal" nature of hospital administration.
-- **Rounded (8px):** The standard for profile images and information cards to provide a subtle "human" touch without sacrificing professional rigor.
-- **Modal (12px):** Used for large container overlays to distinguish them from the underlying page structure.
+---
 
-## Components
+## 프로젝트 구조
 
-### Buttons
-- **Primary:** Filled with `primary` (#1e3a8a), white text, 8px radius. Hover state shifts to `tertiary` (#172dd2). Used for "Confirm Appointment" or "Apply".
-- **Secondary:** Outlined with 1px `primary` color. Used for "Cancel" or "Back".
+```
+src/
+├── App.tsx              # 라우팅
+├── components/          # Header, Footer, 공통 UI
+├── pages/               # 페이지 컴포넌트
+├── contexts/            # Auth, Reservations 상태
+├── data/                # mock 데이터
+└── index.css            # 전역 스타일
 
-### Navigation
-- **Global Header:** A heavy `secondary` (#0f172a) background for the navigation bar ensures high contrast. Dropdown menus should use the same dark background to maintain visual continuity.
-- **Breadcrumbs:** Required on every sub-page to prevent user disorientation, rendered in `body-sm`.
+docs/
+└── DESIGN.md            # Stitch 디자인 시스템 가이드
+```
 
-### Input Fields & Search
-- **Search Bar:** Large-scale input with a 1px `primary` border. Sharp corners (0px) are required. The search icon should be housed in a square, primary-colored block at the end of the field.
-- **Forms:** Labels must be positioned above the input. All inputs use 0px radius.
+---
 
-### Specialized Cards
-- **Task Matrix:** Large 4-column cards with an icon, `title` text, and a Level 1 elevation.
-- **Doctor Card:** Features a profile image with an 8px radius, detailed career text in `body-md`, and an integrated primary button for immediate booking.
-- **Tables:** No rounded corners. 1px `hairline` borders. Header row background set to `neutral` (#f8f9fa).
+## 디자인
+
+**Medical Trust & Accessibility** 테마를 기반으로, 고령 환자와 시각 장애 사용자도 이용하기 쉽도록 대비·가독성·터치 영역을 고려했습니다.
+
+- Primary: `#00236f` / Container: `#1e3a8a`
+- 8px 그리드, 컨테이너 최대 1320px
+- 색상·타이포 토큰: `tailwind.config.js`
+
+---
+
+## 주요 라우트
+
+| 경로 | 설명 |
+|------|------|
+| `/` | 홈 |
+| `/reservation` | 인터넷 진료예약 |
+| `/reservation/confirm` | 예약 확인/취소 |
+| `/mypage` | 마이페이지 |
+| `/doctors` | 의료진 소개 |
+| `/notices` | 공지사항 |
+| `/faq` | FAQ |
+| `/directions` | 오시는 길 |
+| `/documents/*` | 발급 안내 |
+| `/login`, `/signup` | 로그인·회원가입 |
