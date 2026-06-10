@@ -1,0 +1,28 @@
+﻿{
+    "id":  1,
+    "jsonrpc":  "2.0",
+    "result":  {
+                   "content":  [
+                                   {
+                                       "text":  "{\"name\":\"projects/12720604560302003516/screens/5695c1659134451db46d3ab7229d5490\",\"title\":\"메디브릿지 홈 화면\",\"screenshot\":{\"name\":\"projects/12720604560302003516/files/4191302095427008251\",\"downloadUrl\":\"https://lh3.googleusercontent.com/aida/AP1WRLsIFCwWFHvZb3tEObf_B4HlItkZvm7lK_CSqiEeQHOCBWpsNAErgO7S-vdlQiKwB5G_PWCeGcM6uJXlIUq-43nJC3fpz2RzZL9fPVp7u95pxCBpXRw6NrfHjXx3-0AAl76wN2utlUvTEoO7IZj6KlVa2AA7nriC1oeX1uq6oHtwNPQO_sOuKxZciEmyTKmI9nzVTD62-DfL2Xn7mOMFkzSqwe-IP--ZsLhbtGBBbx5JXCqLfDeFnmBG0w4\"},\"htmlCode\":{\"name\":\"projects/12720604560302003516/files/6984507209553225414\",\"downloadUrl\":\"https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzAwMDY1M2JlZWNmNTRhNjIwMWVlNTNhOWZiMTQ3YmM3EgsSBxCN9Y-5yw4YAZIBJAoKcHJvamVjdF9pZBIWQhQxMjcyMDYwNDU2MDMwMjAwMzUxNg\u0026filename=\u0026opi=89354086\",\"mimeType\":\"text/html\"},\"width\":\"2560\",\"height\":\"2896\",\"deviceType\":\"DESKTOP\"}",
+                                       "type":  "text"
+                                   }
+                               ],
+                   "structuredContent":  {
+                                             "deviceType":  "DESKTOP",
+                                             "height":  "2896",
+                                             "htmlCode":  {
+                                                              "downloadUrl":  "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzAwMDY1M2JlZWNmNTRhNjIwMWVlNTNhOWZiMTQ3YmM3EgsSBxCN9Y-5yw4YAZIBJAoKcHJvamVjdF9pZBIWQhQxMjcyMDYwNDU2MDMwMjAwMzUxNg\u0026filename=\u0026opi=89354086",
+                                                              "mimeType":  "text/html",
+                                                              "name":  "projects/12720604560302003516/files/6984507209553225414"
+                                                          },
+                                             "name":  "projects/12720604560302003516/screens/5695c1659134451db46d3ab7229d5490",
+                                             "screenshot":  {
+                                                                "downloadUrl":  "https://lh3.googleusercontent.com/aida/AP1WRLsIFCwWFHvZb3tEObf_B4HlItkZvm7lK_CSqiEeQHOCBWpsNAErgO7S-vdlQiKwB5G_PWCeGcM6uJXlIUq-43nJC3fpz2RzZL9fPVp7u95pxCBpXRw6NrfHjXx3-0AAl76wN2utlUvTEoO7IZj6KlVa2AA7nriC1oeX1uq6oHtwNPQO_sOuKxZciEmyTKmI9nzVTD62-DfL2Xn7mOMFkzSqwe-IP--ZsLhbtGBBbx5JXCqLfDeFnmBG0w4",
+                                                                "name":  "projects/12720604560302003516/files/4191302095427008251"
+                                                            },
+                                             "title":  "메디브릿지 홈 화면",
+                                             "width":  "2560"
+                                         }
+               }
+}

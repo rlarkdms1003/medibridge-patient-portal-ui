@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediBridge - 홈</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap">
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "outline-variant": "#c5c5d3","on-primary-fixed-variant": "#264191","background": "#f8f9fa","surface-variant": "#e1e3e4",
+            "on-tertiary": "#ffffff","ink-muted": "#999999","surface-bright": "#f8f9fa","on-secondary-container": "#5c647a",
+            "ink-secondary": "#666666","on-surface": "#191c1d","tertiary-container": "#001ec9","error-container": "#ffdad6",
+            "surface-container-low": "#f3f4f5","secondary": "#565e74","surface-container-highest": "#e1e3e4","surface-container-high": "#e7e8e9",
+            "on-error": "#ffffff","surface-container-lowest": "#ffffff","tertiary-fixed": "#dfe0ff","surface": "#f8f9fa",
+            "on-primary-fixed": "#00164e","on-tertiary-container": "#9ba5ff","surface-container": "#edeeef","on-surface-variant": "#444651",
+            "primary-fixed": "#dce1ff","on-tertiary-fixed-variant": "#1129d0","surface-tint": "#4059aa","on-primary-container": "#90a8ff",
+            "inverse-on-surface": "#f0f1f2","primary-fixed-dim": "#b6c4ff","outline": "#757682","primary": "#00236f","on-background": "#191c1d",
+            "primary-container": "#1e3a8a","secondary-fixed-dim": "#bec6e0","secondary-container": "#dae2fd","tertiary-fixed-dim": "#bdc2ff",
+            "inverse-primary": "#b6c4ff","on-secondary-fixed": "#131b2e","on-primary": "#ffffff","error": "#ba1a1a","tertiary": "#00128d",
+            "secondary-fixed": "#dae2fd","hairline": "#e1e5eb","inverse-surface": "#2e3132","surface-dim": "#d9dadb","on-error-container": "#93000a",
+            "ink-black": "#111827","canvas-white": "#ffffff","on-tertiary-fixed": "#000964","on-secondary-fixed-variant": "#3f465c","on-secondary": "#ffffff"
+          },
+          borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          spacing: { "margin-mobile": "16px", "gutter": "24px", "margin-desktop": "40px", "container-max": "1320px", "container-min": "1200px", "grid-unit": "8px" },
+          fontFamily: { "display-1": ["Noto Sans KR"], "title": ["Noto Sans KR"], "body-sm": ["Noto Sans KR"], "button": ["Noto Sans KR"], "headline-2": ["Noto Sans KR"], "eyebrow": ["Noto Sans KR"], "headline-1-mobile": ["Noto Sans KR"], "headline-1": ["Noto Sans KR"], "body-md": ["Noto Sans KR"] },
+          fontSize: {
+            "display-1": ["36px", { lineHeight: "1.3", letterSpacing: "-0.02rem", fontWeight: "700" }],
+            "title": ["18px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "600" }],
+            "body-sm": ["14px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+            "button": ["16px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "700" }],
+            "headline-2": ["20px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "600" }],
+            "eyebrow": ["13px", { lineHeight: "1.3", letterSpacing: "0.02rem", fontWeight: "600" }],
+            "headline-1-mobile": ["22px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "700" }],
+            "headline-1": ["26px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "700" }],
+            "body-md": ["16px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="flex min-h-screen flex-col bg-background text-ink-black antialiased selection:bg-primary-container selection:text-white">
+  <header class="sticky top-0 z-50 w-full border-b border-hairline bg-secondary">
+    <div class="mx-auto flex h-20 w-full max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
+      <div class="flex h-full items-center gap-8">
+        <a class="flex shrink-0 items-center gap-2 font-title text-title font-bold text-primary-fixed" href="home.html">
+          <svg class="h-7 w-7 shrink-0" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="16" y="7" width="8" height="26" rx="2" fill="#dce1ff"></rect>
+            <rect x="9" y="16.5" width="22" height="7" rx="2" fill="#dce1ff"></rect>
+          </svg>
+          <span>MediBridge</span>
+        </a>
+        <nav class="hidden h-full md:flex">
+          <a class="flex h-full items-center px-5 font-title text-title text-white transition-colors hover:text-primary-fixed" href="#">진료안내</a>
+          <a class="flex h-full items-center px-5 font-title text-title text-white transition-colors hover:text-primary-fixed" href="#">이용안내</a>
+          <a class="flex h-full items-center px-5 font-title text-title text-white transition-colors hover:text-primary-fixed" href="#">병원소개</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-4 text-on-primary">
+        <a class="font-body-sm text-body-sm transition-colors hover:text-primary-fixed" href="signup.html">회원가입</a>
+        <a class="font-body-sm text-body-sm transition-colors hover:text-primary-fixed" href="login.html">로그인</a>
+        <button type="button" class="p-2 transition-opacity hover:opacity-80" aria-label="My Page"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">account_circle</span></button>
+        <button type="button" class="p-2 transition-opacity hover:opacity-80" aria-label="Notifications"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">notifications</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden bg-surface-container-low">
+      <div class="absolute inset-0 z-0">
+        <img class="h-full w-full object-cover opacity-20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi4NFcYD_kTBhqSptl3Ng7WrEJJPmJq6hnjyKwlIXjhZhH4dmOasIKyih_6-S20xpUIA7rcXoBcUM11KI3pMCpxQ8Ofckf0zQqj6G1xDLImCr0FcjzcoqUZZ_Os3KRNvuy7OhERSHXCIL0UTKP9g6ws4MTyywwq8f29gY5gUg-z3706-l2quxAHUGmh2Su1LYVbsfUFIZ__7vTEBLBZ8S2wUL6088OpW8MT_vAcJaFIn_qUQm4ZrUiWdqDoYX7jPXNIFD-mAD2w0Xh" alt="Hospital Hero">
+      </div>
+      <div class="relative z-10 mx-auto flex max-w-container-max flex-col items-center gap-6 px-margin-mobile py-24 text-center md:px-margin-desktop md:py-32">
+        <h1 class="max-w-2xl font-display-1 text-display-1 leading-tight text-ink-black">환자 중심의 의료 혁신,<br>메디브릿지가 함께합니다</h1>
+        <p class="mt-4 max-w-xl font-body-md text-body-md text-ink-secondary">최고의 의료진과 첨단 시스템으로 빠르고 정확한 진료 서비스를 제공합니다.</p>
+        <div class="mt-8 flex w-full max-w-3xl border border-primary bg-canvas-white shadow-sm">
+          <div class="flex flex-grow items-center px-4">
+            <span class="material-symbols-outlined mr-3 text-ink-muted">search</span>
+            <input class="w-full border-none bg-transparent py-4 font-body-md text-ink-black focus:outline-none" type="text" placeholder="검색어를 입력해주세요.">
+          </div>
+          <button type="button" class="flex items-center justify-center bg-primary px-8 font-button text-button text-white transition-colors hover:bg-tertiary">검색</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative z-20 mx-auto mt-8 max-w-container-max px-margin-mobile md:px-margin-desktop">
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-gutter">
+        <a class="group flex flex-col items-center border border-hairline bg-canvas-white p-6 text-center text-ink-black shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary md:p-8" href="reservation.html">
+          <span class="material-symbols-outlined mb-4 text-4xl text-primary transition-colors group-hover:text-on-primary">calendar_month</span>
+          <h3 class="mb-2 font-title text-title transition-colors group-hover:text-white">인터넷 진료예약</h3>
+          <p class="hidden whitespace-pre-line font-body-sm text-body-sm text-ink-secondary transition-colors group-hover:text-primary-fixed-dim md:block">원하시는 시간에
+빠르게 예약하세요</p>
+        </a>
+        <a class="group flex flex-col items-center border border-hairline bg-canvas-white p-6 text-center text-ink-black shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary md:p-8" href="reservation-confirm.html">
+          <span class="material-symbols-outlined mb-4 text-4xl text-primary transition-colors group-hover:text-on-primary">event_available</span>
+          <h3 class="mb-2 font-title text-title transition-colors group-hover:text-white">예약확인/취소</h3>
+          <p class="hidden whitespace-pre-line font-body-sm text-body-sm text-ink-secondary transition-colors group-hover:text-primary-fixed-dim md:block">나의 예약 내역을
+확인하고 관리하세요</p>
+        </a>
+        <a class="group flex flex-col items-center border border-hairline bg-canvas-white p-6 text-center text-ink-black shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary md:p-8" href="signup.html">
+          <span class="material-symbols-outlined mb-4 text-4xl text-primary transition-colors group-hover:text-on-primary">description</span>
+          <h3 class="mb-2 font-title text-title transition-colors group-hover:text-white">신청/발급안내</h3>
+          <p class="hidden whitespace-pre-line font-body-sm text-body-sm text-ink-secondary transition-colors group-hover:text-primary-fixed-dim md:block">회원가입 후
+서비스를 이용하세요</p>
+        </a>
+        <a class="group flex flex-col items-center border border-hairline bg-canvas-white p-6 text-center text-ink-black shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary md:p-8" href="login.html">
+          <span class="material-symbols-outlined mb-4 text-4xl text-primary transition-colors group-hover:text-on-primary">location_on</span>
+          <h3 class="mb-2 font-title text-title transition-colors group-hover:text-white">오시는길</h3>
+          <p class="hidden whitespace-pre-line font-body-sm text-body-sm text-ink-secondary transition-colors group-hover:text-primary-fixed-dim md:block">로그인 후
+더 많은 정보를 확인하세요</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile py-24 md:px-margin-desktop lg:grid-cols-3">
+      <div class="border border-hairline bg-canvas-white">
+        <div class="flex items-center justify-between border-b border-hairline bg-surface-container-low p-4">
+          <h3 class="font-headline-2 text-headline-2 text-ink-black">공지사항</h3>
+          <a class="flex items-center font-body-sm text-body-sm text-primary hover:underline" href="#">더보기 <span class="material-symbols-outlined ml-1 text-sm">chevron_right</span></a>
+        </div>
+        <div class="p-4">
+          <a class="group flex items-center justify-between border-b border-surface-container px-2 py-3 hover:bg-surface-container-low" href="#"><span class="mr-4 truncate font-body-sm text-body-sm text-ink-black group-hover:text-primary">[안내] 2024년 독감 예방접종 안내</span><span class="font-body-sm text-body-sm text-ink-muted">2024.10.15</span></a>
+          <a class="group flex items-center justify-between border-b border-surface-container px-2 py-3 hover:bg-surface-container-low" href="#"><span class="mr-4 truncate font-body-sm text-body-sm text-ink-black group-hover:text-primary">신관 주차장 증축 공사에 따른 주차 안내</span><span class="font-body-sm text-body-sm text-ink-muted">2024.10.10</span></a>
+          <a class="group flex items-center justify-between px-2 py-3 hover:bg-surface-container-low" href="#"><span class="mr-4 truncate font-body-sm text-body-sm text-ink-black group-hover:text-primary">외래 진료 시간 변경 안내 (11월부터 적용)</span><span class="font-body-sm text-body-sm text-ink-muted">2024.10.01</span></a>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-gutter lg:col-span-2 md:grid-cols-2">
+        <div class="group relative min-h-[240px] overflow-hidden border border-hairline bg-ink-black">
+          <img class="absolute inset-0 h-full w-full object-cover opacity-60 transition-all duration-500 group-hover:scale-105 group-hover:opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWqAgpYWIgRbcQa_ET-jlmC_OEOc3S85oMAfgdw6no-QwOC5I4SQotjedLOL9x7DU47ybSV-VnRwCnqzWbmh4el09QZLrVUHm3qsmaAUtfvq8aKxDOpgPRIqvhGrbMvu60klkCWzMAyuptfw0jGy7NkLjVob6SZiXPTTCfxC2tC2vL7iYBIYfvRvnM76geQ_H0AvomByhhpm3N2TqLVJ39AQtYANOevKJ0xM9SI3lG4GtgxthvIjrsKolExnZ6eJ-eIauWWHJ8QQpK" alt="Health Info">
+          <div class="relative z-10 flex h-full flex-col justify-end p-6">
+            <span class="mb-2 inline-block w-max rounded bg-primary px-2 py-1 font-eyebrow text-eyebrow text-white">건강정보</span>
+            <h3 class="mb-2 font-headline-1 text-headline-1 text-white">환절기 면역력 관리를 위한 5가지 습관</h3>
+            <p class="font-body-sm text-body-sm text-surface-container-highest">일교차가 큰 요즘, 감기를 예방하고 건강을 지키는 방법을 알아봅니다.</p>
+          </div>
+        </div>
+        <div class="group flex flex-col justify-between border border-hairline bg-canvas-white p-6 transition-colors hover:border-primary">
+          <div>
+            <span class="mb-4 inline-block w-max border border-primary px-2 py-1 font-eyebrow text-eyebrow text-primary">전문의 칼럼</span>
+            <h3 class="mb-2 font-headline-2 text-headline-2 text-ink-black transition-colors group-hover:text-primary">디지털 기기 사용이 눈 건강에 미치는 영향</h3>
+            <p class="font-body-sm text-body-sm text-ink-secondary">스마트폰과 모니터 사용 시간이 길어지면서 안구건조증 환자가 급증하고 있습니다.</p>
+          </div>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface-container-high">
+              <span class="material-symbols-outlined text-ink-muted">person</span>
+            </div>
+            <div>
+              <p class="text-sm font-title text-title text-ink-black">김의사 교수</p>
+              <p class="text-xs font-body-sm text-body-sm text-ink-muted">안과 전문의</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-auto border-t border-hairline bg-surface-container-low">
+    <div class="mx-auto flex w-full max-w-container-max flex-col gap-4 px-margin-mobile py-12 md:flex-row md:items-center md:justify-between md:px-margin-desktop">
+      <div class="font-body-sm text-body-sm text-ink-muted">
+        <p>서울특별시 강남구 테헤란로 123 메디브릿지 빌딩 | 대표전화: 1588-1234 | 팩스: 02-123-4567</p>
+        <p>© 2024 MediBridge Medical Center. All Rights Reserved.</p>
+      </div>
+      <div class="flex shrink-0 flex-wrap gap-4 font-body-sm text-body-sm">
+        <a class="text-ink-muted underline hover:text-primary" href="#">개인정보처리방침</a>
+        <a class="text-ink-muted underline hover:text-primary" href="#">이용약관</a>
+        <a class="text-ink-muted underline hover:text-primary" href="#">환자의권리와의무</a>
+        <a class="text-ink-muted underline hover:text-primary" href="#">찾아오시는길</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
