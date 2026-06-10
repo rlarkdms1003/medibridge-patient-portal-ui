@@ -105,6 +105,7 @@ export const inpatientLifeContactInfo = {
 };
 
 export const relatedLinks = [
+  { label: '문병안내', href: '/visitation', icon: 'groups' },
   { label: '입원절차', href: '/admission/guide', icon: 'bed' },
   { label: '퇴원절차', href: '/discharge/guide', icon: 'logout' },
   { label: '진료안내', href: '/outpatient/guide', icon: 'medical_services' },

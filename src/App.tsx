@@ -22,6 +22,7 @@ import NoticesPage from './pages/NoticesPage';
 import MedicalRecordsCopyPage from './pages/MedicalRecordsCopyPage';
 import MyPage from './pages/MyPage';
 import SignupPage from './pages/SignupPage';
+import VisitationGuidePage from './pages/VisitationGuidePage';
 
 export default function App() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
       <Route path="/facilities/external" element={<ExternalFacilitiesPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/guest" element={<GuestLoginPage />} />
+      <Route path="/visitation" element={<VisitationGuidePage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/mypage" element={<MyPage />} />
       </Routes>
