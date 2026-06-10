@@ -54,8 +54,6 @@ export const kioskLocations = [
 
 export const otherCertificateNotes = {
   visit: '병원 방문 시 무인발급기에서 발급',
-  internet:
-    '증명서발급 홈페이지에서 로그인 후 발급 (진료비 계산서·영수증, 입·퇴원 확인서, 진료 사실 확인서 등)',
   severeIllness:
     '본원에서 최초로 중증 또는 산정특례 등록을 하신 경우 발급이 가능합니다. 외부 병원에서 최초 등록하신 경우 해당 병원 또는 본원 해당 진료과에 요청 후 담당 의사가 작성하여 발급합니다.',
   receiptReissue:
@@ -66,22 +64,22 @@ export const otherCertificates: CertificateRow[] = [
   {
     type: '진료 사실 확인서',
     note: '통원 일자만 기재되어 있음',
-    method: '무인발급기 · 인터넷',
+    method: '무인발급기',
   },
   {
     type: '입·퇴원사실 확인서',
     note: '입원 기간만 기재되어 있음',
-    method: '무인발급기 · 인터넷',
+    method: '무인발급기',
   },
   {
     type: '연말정산용 장애인증명서',
     note: '연말정산용',
-    method: '무인발급기 · 인터넷',
+    method: '무인발급기',
   },
   {
     type: '진료비 납입 확인서',
     note: '연말정산 겸용',
-    method: '무인발급기 · 인터넷',
+    method: '무인발급기',
   },
   {
     type: '진료비 계산서·영수증 재발급 및 상세(세부) 내역서',

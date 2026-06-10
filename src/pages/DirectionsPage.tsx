@@ -159,7 +159,8 @@ export default function DirectionsPage() {
 
                 {activeTab === 'parking' && (
                   <div className="space-y-5">
-                    <p className="border border-primary bg-primary-fixed p-4 font-body-md text-body-md text-on-primary-fixed">
+                    <p className="mb-8 flex gap-2 font-body-md text-body-md font-semibold text-ink-black">
+                      <Icon className="shrink-0 text-primary" name="info" />
                       {parkingInfo.notice}
                     </p>
                     <dl className="space-y-4 font-body-md text-body-md">
@@ -221,10 +222,6 @@ export default function DirectionsPage() {
                   <li className="flex gap-2">
                     <Icon className="shrink-0 text-primary" name="schedule" />
                     외래 진료: 평일 09:00 ~ 18:00 / 토요일 09:00 ~ 13:00
-                  </li>
-                  <li className="flex gap-2">
-                    <Icon className="shrink-0 text-primary" name="call" />
-                    길 안내 문의: {hospitalInfo.phone}
                   </li>
                 </ul>
               </div>

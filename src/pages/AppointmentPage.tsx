@@ -15,10 +15,12 @@ import {
   isToday,
   timeSlots,
 } from '../data/appointmentData';
+import { useReservations } from '../contexts/ReservationsContext';
 
 type TimePeriod = 'morning' | 'afternoon';
 
 export default function AppointmentPage() {
+  const { addReservation } = useReservations();
   const initialCalendarStart = useMemo(() => getInitialCalendarStart(), []);
   const [calendarStart, setCalendarStart] = useState(initialCalendarStart);
   const calendarDates = useMemo(() => getCalendarDates(calendarStart, 10), [calendarStart]);
@@ -81,7 +83,16 @@ export default function AppointmentPage() {
   };
 
   const handleSubmitBooking = () => {
-    if (!canConfirm) return;
+    if (!canConfirm || !selectedDoctor || !selectedDate || !selectedTime) return;
+
+    addReservation({
+      department: SPECIALTY_LABEL,
+      doctorName: selectedDoctor.name,
+      doctorTitle: selectedDoctor.title,
+      specialty: selectedDoctor.specialty,
+      date: formatDate(selectedDate),
+      time: selectedTime,
+    });
     setIsBookingComplete(true);
   };
 

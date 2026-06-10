@@ -6,16 +6,16 @@ import Icon from '../components/Icon';
 import PageContainer, { PageMain } from '../components/PageContainer';
 import ReservationDetailModal from '../components/ReservationDetailModal';
 import {
-  initialReservations,
   reservationStatusLabel,
   reservationTabs,
   type Reservation,
   type ReservationTab,
 } from '../data/reservationHistoryData';
+import { useReservations } from '../contexts/ReservationsContext';
 
 export default function ReservationConfirmPage() {
+  const { reservations, cancelReservation } = useReservations();
   const [activeTab, setActiveTab] = useState<ReservationTab>('scheduled');
-  const [reservations, setReservations] = useState(initialReservations);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -63,13 +63,7 @@ export default function ReservationConfirmPage() {
   const handleCancelReservation = () => {
     if (!selectedReservation) return;
 
-    setReservations((prev) =>
-      prev.map((reservation) =>
-        reservation.id === selectedReservation.id
-          ? { ...reservation, status: 'cancelled', canCancel: false }
-          : reservation,
-      ),
-    );
+    cancelReservation(selectedReservation.id);
     setIsCancelComplete(true);
   };
 

@@ -108,14 +108,7 @@ export default function DiagnosisCertificatePage() {
                         <li key={location}>· {location}</li>
                       ))}
                     </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-2 font-title text-title text-ink-black">인터넷</h3>
-                    <p className="font-body-md text-body-md text-ink-secondary">
-                      {otherCertificateNotes.internet}
-                    </p>
-                    <p className="mt-2 font-body-sm text-body-sm text-ink-secondary">
+                    <p className="mt-4 font-body-sm text-body-sm text-ink-secondary">
                       {otherCertificateNotes.severeIllness}
                     </p>
                   </div>
@@ -327,7 +320,7 @@ export default function DiagnosisCertificatePage() {
                   </li>
                   <li className="flex gap-2">
                     <Icon className="shrink-0 text-primary" name="print" />
-                    일부 제증명은 무인발급기·인터넷 발급 가능
+                    일부 제증명은 무인발급기에서 발급 가능
                   </li>
                   <li className="flex gap-2">
                     <Icon className="shrink-0 text-primary" name="schedule" />
@@ -351,15 +344,6 @@ export default function DiagnosisCertificatePage() {
                   FAQ
                   <Icon className="text-primary" name="chevron_right" />
                 </Link>
-                <a
-                  className="flex items-center justify-between px-4 py-3 font-body-md text-body-md text-ink-black transition-colors hover:bg-surface-container-low md:px-6 md:py-4"
-                  href="https://sdoc.snuh.org/main.do"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  증명서발급 사이트
-                  <Icon className="text-primary" name="open_in_new" />
-                </a>
               </div>
 
               <div className="border border-hairline bg-canvas-white p-6 md:p-8">

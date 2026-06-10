@@ -6,6 +6,7 @@ import Icon from '../components/Icon';
 import PageContainer, { PageMain } from '../components/PageContainer';
 import ReservationDetailModal from '../components/ReservationDetailModal';
 import { useAuth } from '../contexts/AuthContext';
+import { useReservations } from '../contexts/ReservationsContext';
 import {
   medicalHistory,
   mypageMenus,
@@ -13,8 +14,8 @@ import {
   type MyPageTab,
 } from '../data/mypageData';
 import {
-  initialReservations,
   reservationStatusLabel,
+  sortScheduledReservations,
   type Reservation,
 } from '../data/reservationHistoryData';
 
@@ -39,7 +40,7 @@ function ReservationRow({
   onDetailClick: (reservation: Reservation) => void;
 }) {
   return (
-    <div className="flex flex-col gap-3 border border-hairline p-4 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-3 border border-hairline bg-canvas-white p-4 md:flex-row md:items-center md:justify-between">
       <div>
         <div className="mb-1 flex flex-wrap items-center gap-2">
           <span
@@ -85,7 +86,11 @@ function HomeSection({
   userName: string;
   onDetailClick: (reservation: Reservation) => void;
 }) {
-  const nextReservation = upcomingReservations[0];
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
+  const hasMoreUpcoming = upcomingReservations.length > 2;
+  const upcomingToShow = showAllUpcoming
+    ? upcomingReservations
+    : upcomingReservations.slice(0, 2);
 
   return (
     <div className="space-y-gutter">
@@ -98,12 +103,28 @@ function HomeSection({
         </p>
       </div>
 
-      {nextReservation ? (
-        <div>
-          <h3 className="mb-4 font-headline-2 text-headline-2 text-ink-black">다가오는 예약</h3>
-          <div className="border border-hairline bg-canvas-white p-6 md:p-8">
-            <ReservationRow reservation={nextReservation} onDetailClick={onDetailClick} />
+      {upcomingToShow.length > 0 ? (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-4">
+            <h3 className="font-headline-2 text-headline-2 text-ink-black">다가오는 예약</h3>
+            {hasMoreUpcoming && (
+              <button
+                className="inline-flex shrink-0 items-center gap-1 font-body-sm text-body-sm text-primary hover:underline"
+                type="button"
+                onClick={() => setShowAllUpcoming((prev) => !prev)}
+              >
+                {showAllUpcoming ? '접기' : '전체 보기'}
+                <Icon className="text-base" name={showAllUpcoming ? 'expand_less' : 'chevron_right'} />
+              </button>
+            )}
           </div>
+          {upcomingToShow.map((reservation) => (
+            <ReservationRow
+              key={reservation.id}
+              reservation={reservation}
+              onDetailClick={onDetailClick}
+            />
+          ))}
         </div>
       ) : (
         <div className="border border-hairline bg-canvas-white p-8 text-center">
@@ -240,8 +261,342 @@ function HistorySection() {
   );
 }
 
+function ProfileModal({
+  title,
+  children,
+  onClose,
+}: {
+  title: string;
+  children: React.ReactNode;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-black/50 px-margin-mobile py-8"
+      role="presentation"
+      onClick={onClose}
+    >
+      <div
+        aria-labelledby="profile-modal-title"
+        aria-modal="true"
+        className="w-full max-w-md border border-hairline bg-canvas-white p-6 shadow-[0_8px_24px_rgba(0,0,0,0.15)] md:p-8"
+        role="dialog"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <h2 className="font-headline-1 text-headline-1 text-ink-black" id="profile-modal-title">
+          {title}
+        </h2>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+const profileInputClassName =
+  'w-full border border-hairline bg-canvas-white px-4 py-3 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary';
+
+function PasswordChangeModal({ onClose }: { onClose: () => void }) {
+  const { changePassword } = useAuth();
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const result = changePassword({ currentPassword, newPassword, confirmPassword });
+    if (!result.success) {
+      setError(result.message);
+      return;
+    }
+    setError('');
+    setIsComplete(true);
+  };
+
+  if (isComplete) {
+    return (
+      <ProfileModal title="비밀번호 변경" onClose={onClose}>
+        <div className="mt-6 text-center">
+          <Icon className="mb-4 text-5xl text-primary" name="check_circle" />
+          <p className="font-body-md text-body-md text-ink-secondary">비밀번호가 변경되었습니다.</p>
+        </div>
+        <button
+          className="mt-8 w-full bg-secondary px-6 py-4 font-button text-button text-on-secondary transition-opacity hover:opacity-90"
+          type="button"
+          onClick={onClose}
+        >
+          확인
+        </button>
+      </ProfileModal>
+    );
+  }
+
+  return (
+    <ProfileModal title="비밀번호 변경" onClose={onClose}>
+      <p className="mt-3 font-body-md text-body-md text-ink-secondary">
+        현재 비밀번호를 입력한 후 새 비밀번호를 설정해 주세요.
+      </p>
+      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black" htmlFor="currentPassword">
+            현재 비밀번호
+          </label>
+          <input
+            autoComplete="current-password"
+            className={profileInputClassName}
+            id="currentPassword"
+            type="password"
+            value={currentPassword}
+            onChange={(event) => setCurrentPassword(event.target.value)}
+          />
+        </div>
+        <div>
+          <label className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black" htmlFor="newPassword">
+            새 비밀번호
+          </label>
+          <input
+            autoComplete="new-password"
+            className={profileInputClassName}
+            id="newPassword"
+            minLength={4}
+            type="password"
+            value={newPassword}
+            onChange={(event) => setNewPassword(event.target.value)}
+          />
+        </div>
+        <div>
+          <label
+            className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black"
+            htmlFor="confirmPassword"
+          >
+            새 비밀번호 확인
+          </label>
+          <input
+            autoComplete="new-password"
+            className={profileInputClassName}
+            id="confirmPassword"
+            minLength={4}
+            type="password"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+          />
+        </div>
+        {error && <p className="font-body-sm text-body-sm text-error">{error}</p>}
+        <div className="flex gap-3 pt-2">
+          <button
+            className="flex-1 border border-hairline px-6 py-4 font-button text-button text-ink-black transition-colors hover:border-primary"
+            type="button"
+            onClick={onClose}
+          >
+            취소
+          </button>
+          <button
+            className="flex-1 bg-primary px-6 py-4 font-button text-button text-canvas-white transition-opacity hover:opacity-90"
+            type="submit"
+          >
+            변경하기
+          </button>
+        </div>
+      </form>
+    </ProfileModal>
+  );
+}
+
+function ProfileEditModal({ onClose }: { onClose: () => void }) {
+  const { user, updateUser } = useAuth();
+  const [name, setName] = useState(user?.name ?? '');
+  const [phone, setPhone] = useState(user?.phone ?? '');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [error, setError] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+
+  if (!user) return null;
+
+  const handlePhoneChange = (value: string) => {
+    setPhone(value);
+    setIsCodeSent(false);
+    setVerificationCode('');
+    setIsPhoneVerified(false);
+  };
+
+  const handleSendCode = () => {
+    if (!phone.trim()) return;
+    setIsCodeSent(true);
+    setVerificationCode('');
+    setIsPhoneVerified(false);
+    setError('');
+  };
+
+  const handleConfirmCode = () => {
+    if (!verificationCode.trim()) {
+      setError('인증번호를 입력해 주세요.');
+      return;
+    }
+    setIsPhoneVerified(true);
+    setError('');
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!name.trim()) {
+      setError('이름을 입력해 주세요.');
+      return;
+    }
+
+    if (!phone.trim()) {
+      setError('휴대전화번호를 입력해 주세요.');
+      return;
+    }
+
+    if (!isPhoneVerified) {
+      setError('휴대전화 인증을 완료해 주세요.');
+      return;
+    }
+
+    updateUser({
+      name: name.trim(),
+      phone: phone.trim(),
+    });
+    setError('');
+    setIsComplete(true);
+  };
+
+  if (isComplete) {
+    return (
+      <ProfileModal title="회원정보 수정" onClose={onClose}>
+        <div className="mt-6 text-center">
+          <Icon className="mb-4 text-5xl text-primary" name="check_circle" />
+          <p className="font-body-md text-body-md text-ink-secondary">회원정보가 수정되었습니다.</p>
+        </div>
+        <button
+          className="mt-8 w-full bg-secondary px-6 py-4 font-button text-button text-on-secondary transition-opacity hover:opacity-90"
+          type="button"
+          onClick={onClose}
+        >
+          확인
+        </button>
+      </ProfileModal>
+    );
+  }
+
+  return (
+    <ProfileModal title="회원정보 수정" onClose={onClose}>
+      <p className="mt-3 font-body-md text-body-md text-ink-secondary">
+        변경할 정보를 입력하고 휴대전화 인증을 완료한 후 저장해 주세요.
+      </p>
+      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black" htmlFor="editName">
+            이름
+          </label>
+          <input
+            autoComplete="name"
+            className={profileInputClassName}
+            id="editName"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </div>
+        <div>
+          <label className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black" htmlFor="editPhone">
+            휴대전화
+          </label>
+          <div className="flex gap-2">
+            <input
+              autoComplete="tel"
+              className="min-w-0 flex-1 border border-hairline bg-canvas-white px-4 py-3 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary"
+              id="editPhone"
+              placeholder="휴대전화번호를 입력하세요"
+              type="tel"
+              value={phone}
+              onChange={(event) => handlePhoneChange(event.target.value)}
+            />
+            <button
+              className="shrink-0 border border-hairline bg-surface-container px-4 py-3 font-button text-button text-ink-black transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={!phone.trim()}
+              type="button"
+              onClick={handleSendCode}
+            >
+              인증번호 전송
+            </button>
+          </div>
+          {isCodeSent && (
+            <div className="mt-3 flex gap-2">
+              <input
+                autoComplete="one-time-code"
+                className="min-w-0 flex-1 border border-hairline bg-canvas-white px-4 py-3 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary"
+                id="editVerificationCode"
+                inputMode="numeric"
+                placeholder="인증번호를 입력하세요"
+                type="text"
+                value={verificationCode}
+                onChange={(event) => {
+                  setVerificationCode(event.target.value);
+                  setIsPhoneVerified(false);
+                }}
+              />
+              <button
+                className="shrink-0 border border-hairline bg-surface-container px-5 py-3 font-button text-button text-ink-black transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={!verificationCode.trim()}
+                type="button"
+                onClick={handleConfirmCode}
+              >
+                인증
+              </button>
+            </div>
+          )}
+          {isPhoneVerified && (
+            <p className="mt-2 flex items-center gap-1 font-body-sm text-body-sm text-primary">
+              <Icon className="text-base" name="check_circle" />
+              휴대전화 인증이 완료되었습니다.
+            </p>
+          )}
+        </div>
+        {error && <p className="font-body-sm text-body-sm text-error">{error}</p>}
+        <div className="flex gap-3 pt-2">
+          <button
+            className="flex-1 border border-hairline px-6 py-4 font-button text-button text-ink-black transition-colors hover:border-primary"
+            type="button"
+            onClick={onClose}
+          >
+            취소
+          </button>
+          <button
+            className="flex-1 bg-primary px-6 py-4 font-button text-button text-canvas-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={!isPhoneVerified}
+            type="submit"
+          >
+            저장
+          </button>
+        </div>
+      </form>
+    </ProfileModal>
+  );
+}
+
 function ProfileSection() {
   const { user } = useAuth();
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   if (!user) return null;
 
@@ -258,8 +613,7 @@ function ProfileSection() {
       <div className="border border-hairline bg-canvas-white p-6 md:p-8">
         <h2 className="font-headline-2 text-headline-2 text-ink-black">회원정보</h2>
         <p className="mt-2 font-body-md text-body-md text-ink-secondary">
-          회원 정보 확인 및 계정 관리를 할 수 있습니다. 정보 변경은 예약센터(1588-5700) 또는 내원 시
-          가능합니다.
+          회원 정보 확인 및 계정 관리를 할 수 있습니다.
         </p>
       </div>
 
@@ -276,20 +630,27 @@ function ProfileSection() {
         </dl>
         <hr className="my-6 border-0 border-t border-hairline" />
         <div className="flex w-full gap-4 sm:w-auto">
-          <button
-            className="flex-1 border border-outline bg-surface-container-lowest px-6 py-3 text-center font-button text-button text-ink-black transition-colors hover:bg-surface-container-low sm:flex-none"
-            type="button"
-          >
-            비밀번호 변경
-          </button>
+          {user.loginType === 'member' && (
+            <button
+              className="flex-1 border border-outline bg-surface-container-lowest px-6 py-3 text-center font-button text-button text-ink-black transition-colors hover:bg-surface-container-low sm:flex-none"
+              type="button"
+              onClick={() => setIsPasswordModalOpen(true)}
+            >
+              비밀번호 변경
+            </button>
+          )}
           <button
             className="flex-1 bg-primary px-6 py-3 text-center font-button text-button text-canvas-white shadow-sm transition-colors hover:bg-tertiary sm:flex-none"
             type="button"
+            onClick={() => setIsProfileModalOpen(true)}
           >
             회원정보 수정
           </button>
         </div>
       </div>
+
+      {isPasswordModalOpen && <PasswordChangeModal onClose={() => setIsPasswordModalOpen(false)} />}
+      {isProfileModalOpen && <ProfileEditModal onClose={() => setIsProfileModalOpen(false)} />}
     </div>
   );
 }
@@ -301,6 +662,7 @@ function parseTabParam(tab: string | null): MyPageTab {
 
 export default function MyPage() {
   const { isLoggedIn, user } = useAuth();
+  const { reservations } = useReservations();
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<MyPageTab>(() => parseTabParam(searchParams.get('tab')));
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
@@ -340,7 +702,7 @@ export default function MyPage() {
     return <Navigate replace to="/login" />;
   }
 
-  const upcomingReservations = initialReservations.filter((item) => item.status === 'scheduled');
+  const upcomingReservations = sortScheduledReservations(reservations);
   const userName = user.name;
 
   return (

@@ -79,7 +79,6 @@ export const navMenus: NavMenuItem[] = [
       },
       { label: '문병안내', href: '/visitation' },
       { label: 'FAQ(통합)', href: '/faq' },
-      { label: '증명서발급사이트', href: 'https://sdoc.snuh.org/main.do' },
     ],
   },
 ];

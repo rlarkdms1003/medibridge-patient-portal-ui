@@ -95,3 +95,59 @@ export const reservationTabs: { id: ReservationTab; label: string }[] = [
   { id: 'completed', label: '지난 예약' },
   { id: 'cancelled', label: '취소 내역' },
 ];
+
+export function reservationDateTimeValue(reservation: Reservation): number {
+  const [year, month, day] = reservation.date.split('.').map(Number);
+  const [hours, minutes] = reservation.time.split(':').map(Number);
+  return new Date(year, month - 1, day, hours, minutes).getTime();
+}
+
+export function sortScheduledReservations(reservations: Reservation[]): Reservation[] {
+  return reservations
+    .filter((reservation) => reservation.status === 'scheduled')
+    .sort((a, b) => reservationDateTimeValue(a) - reservationDateTimeValue(b));
+}
+
+export function generateReservationId(reservations: Reservation[]): string {
+  const maxNumber = reservations.reduce((max, reservation) => {
+    const match = reservation.id.match(/^rsv-(\d+)$/);
+    if (!match) return max;
+    return Math.max(max, Number.parseInt(match[1], 10));
+  }, 0);
+
+  return `rsv-${String(maxNumber + 1).padStart(3, '0')}`;
+}
+
+export function formatReservationDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}.${month}.${day}`;
+}
+
+export type NewReservationInput = {
+  department: string;
+  doctorName: string;
+  doctorTitle: string;
+  specialty: string;
+  date: string;
+  time: string;
+};
+
+export function createReservation(
+  reservations: Reservation[],
+  input: NewReservationInput,
+): Reservation {
+  return {
+    id: generateReservationId(reservations),
+    department: input.department,
+    doctorName: input.doctorName,
+    doctorTitle: input.doctorTitle,
+    specialty: input.specialty,
+    date: input.date,
+    time: input.time,
+    status: 'scheduled',
+    bookedAt: formatReservationDate(new Date()),
+    canCancel: true,
+  };
+}

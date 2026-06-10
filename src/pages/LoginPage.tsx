@@ -16,7 +16,7 @@ export default function LoginPage() {
       name: userId.trim() || '회원',
       userId: userId.trim() || undefined,
       loginType: 'member',
-    });
+    }, password);
     navigate('/mypage');
   };
 
