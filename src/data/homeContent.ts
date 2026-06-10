@@ -40,7 +40,7 @@ export const navMenus: NavMenuItem[] = [
         children: [
           { label: '예약안내', href: '/reservation/guide' },
           { label: '진료안내', href: '/outpatient/guide' },
-          { label: '비급여 진료비용', href: '#' },
+          { label: '비급여 진료비용', href: '/outpatient/fees' },
         ],
       },
       {

@@ -16,6 +16,7 @@ import HomePage from './pages/HomePage';
 import InpatientLifeGuidePage from './pages/InpatientLifeGuidePage';
 import InternalFacilitiesPage from './pages/InternalFacilitiesPage';
 import LoginPage from './pages/LoginPage';
+import NonCoveredFeePage from './pages/NonCoveredFeePage';
 import NoticeDetailPage from './pages/NoticeDetailPage';
 import NoticesPage from './pages/NoticesPage';
 import MyPage from './pages/MyPage';
@@ -30,6 +31,7 @@ export default function App() {
       <Route path="/reservation" element={<AppointmentPage />} />
       <Route path="/reservation/guide" element={<ReservationGuidePage />} />
       <Route path="/outpatient/guide" element={<OutpatientGuidePage />} />
+      <Route path="/outpatient/fees" element={<NonCoveredFeePage />} />
       <Route path="/admission/guide" element={<AdmissionGuidePage />} />
       <Route path="/discharge/guide" element={<DischargeGuidePage />} />
       <Route path="/inpatient/life" element={<InpatientLifeGuidePage />} />
