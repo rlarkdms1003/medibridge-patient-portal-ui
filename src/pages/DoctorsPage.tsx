@@ -16,8 +16,12 @@ function DoctorCard({ doctor }: { doctor: DoctorProfile }) {
     <article className="border border-hairline bg-canvas-white">
       <div className="flex flex-col gap-6 p-6 md:flex-row md:p-8">
         <div className="flex shrink-0 flex-col items-center md:w-40">
-          <div className="flex h-28 w-28 items-center justify-center rounded-full border border-hairline bg-surface-container-high">
-            <Icon className="text-5xl text-ink-muted" name="person" />
+          <div className="h-28 w-28 overflow-hidden rounded-full border border-hairline bg-surface-container-high">
+            <img
+              alt={`${doctor.name} ${doctor.title} 프로필`}
+              className="h-full w-full object-cover object-top"
+              src={doctor.image}
+            />
           </div>
           <p className="mt-4 text-center font-headline-2 text-headline-2 text-ink-black">
             {doctor.name}

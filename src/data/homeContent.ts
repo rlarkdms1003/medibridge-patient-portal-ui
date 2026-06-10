@@ -47,8 +47,8 @@ export const navMenus: NavMenuItem[] = [
         label: '입/퇴원안내',
         href: '#',
         children: [
-          { label: '입원절차', href: '#' },
-          { label: '퇴원절차', href: '#' },
+          { label: '입원절차', href: '/admission/guide' },
+          { label: '퇴원절차', href: '/discharge/guide' },
           { label: '입원생활안내', href: '#' },
         ],
       },

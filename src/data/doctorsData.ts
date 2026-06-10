@@ -5,6 +5,7 @@ export type DoctorProfile = {
   specialty: string;
   focus: string[];
   schedule: string;
+  image: string;
 };
 
 export const departmentInfo = {
@@ -26,6 +27,7 @@ export const doctorProfiles: DoctorProfile[] = [
     specialty: '스포츠손상·관절재활',
     focus: ['스포츠손상', '어깨·무릎·발목 재활', '수술 후 재활 계획'],
     schedule: '월·수·금 오전 / 화·목 오후',
+    image: '/doctors/doctor-kim.png',
   },
   {
     id: 'lee',
@@ -34,6 +36,7 @@ export const doctorProfiles: DoctorProfile[] = [
     specialty: '척추·목재활',
     focus: ['목·허리 디스크', '척추측만·자세 이상', '만성 요통·목통'],
     schedule: '월·화·목 오전 / 수·금 오후',
+    image: '/doctors/doctor-lee.png',
   },
   {
     id: 'park',
@@ -42,6 +45,7 @@ export const doctorProfiles: DoctorProfile[] = [
     specialty: '어깨·무릎 재활',
     focus: ['회전근개 손상', '무릎 인대·연골 손상', '관절 가동범위 회복'],
     schedule: '화·수·금 오전 / 월·목 오후',
+    image: '/doctors/doctor-park.png',
   },
   {
     id: 'choi',
@@ -50,6 +54,7 @@ export const doctorProfiles: DoctorProfile[] = [
     specialty: '도수·운동치료',
     focus: ['도수치료', '운동처방', '기능적 평가·재활'],
     schedule: '월·수·목 오전 / 화·금 오후',
+    image: '/doctors/doctor-choi.png',
   },
 ];
 

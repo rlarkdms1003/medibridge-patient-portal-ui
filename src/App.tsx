@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
+import AdmissionGuidePage from './pages/AdmissionGuidePage';
 import AppointmentPage from './pages/AppointmentPage';
+import DischargeGuidePage from './pages/DischargeGuidePage';
 import DirectionsPage from './pages/DirectionsPage';
 import OutpatientGuidePage from './pages/OutpatientGuidePage';
 import ReservationGuidePage from './pages/ReservationGuidePage';
@@ -27,6 +29,8 @@ export default function App() {
       <Route path="/reservation" element={<AppointmentPage />} />
       <Route path="/reservation/guide" element={<ReservationGuidePage />} />
       <Route path="/outpatient/guide" element={<OutpatientGuidePage />} />
+      <Route path="/admission/guide" element={<AdmissionGuidePage />} />
+      <Route path="/discharge/guide" element={<DischargeGuidePage />} />
       <Route path="/reservation/confirm" element={<ReservationConfirmPage />} />
       <Route path="/directions" element={<DirectionsPage />} />
       <Route path="/notices" element={<NoticesPage />} />
