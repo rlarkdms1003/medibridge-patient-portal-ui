@@ -85,32 +85,34 @@ export default function NonCoveredFeePage() {
                   </p>
                 </div>
 
-                <div className="mb-6 flex flex-wrap gap-2">
-                  <button
-                    className={`border px-4 py-2 font-body-sm text-body-sm transition-colors ${
-                      activeCategory === 'all'
-                        ? 'border-primary bg-primary text-on-primary'
-                        : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
-                    }`}
-                    type="button"
-                    onClick={() => setActiveCategory('all')}
-                  >
-                    전체
-                  </button>
-                  {nonCoveredFeeCategories.map((category) => (
+                <div className="mb-6 overflow-x-auto">
+                  <div className="flex min-w-max gap-2">
                     <button
-                      key={category.id}
-                      className={`border px-4 py-2 font-body-sm text-body-sm transition-colors ${
-                        activeCategory === category.id
+                      className={`shrink-0 whitespace-nowrap border px-3 py-2 font-body-sm text-body-sm transition-colors ${
+                        activeCategory === 'all'
                           ? 'border-primary bg-primary text-on-primary'
                           : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
                       }`}
                       type="button"
-                      onClick={() => setActiveCategory(category.id)}
+                      onClick={() => setActiveCategory('all')}
                     >
-                      {category.label}
+                      전체
                     </button>
-                  ))}
+                    {nonCoveredFeeCategories.map((category) => (
+                      <button
+                        key={category.id}
+                        className={`shrink-0 whitespace-nowrap border px-3 py-2 font-body-sm text-body-sm transition-colors ${
+                          activeCategory === category.id
+                            ? 'border-primary bg-primary text-on-primary'
+                            : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
+                        }`}
+                        type="button"
+                        onClick={() => setActiveCategory(category.id)}
+                      >
+                        {category.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -123,7 +125,7 @@ export default function NonCoveredFeePage() {
                         <th className="border border-hairline px-4 py-3 text-left font-body-sm text-body-sm font-semibold text-ink-black">
                           항목
                         </th>
-                        <th className="border border-hairline px-4 py-3 text-right font-body-sm text-body-sm font-semibold text-ink-black">
+                        <th className="border border-hairline px-4 py-3 text-left font-body-sm text-body-sm font-semibold text-ink-black">
                           비용
                         </th>
                         <th className="border border-hairline px-4 py-3 text-center font-body-sm text-body-sm font-semibold text-ink-black">
@@ -138,13 +140,13 @@ export default function NonCoveredFeePage() {
                       {filteredItems.length > 0 ? (
                         filteredItems.map((item) => (
                           <tr key={item.id} className="hover:bg-surface-container-low/60">
-                            <td className="border border-hairline px-4 py-3 font-body-sm text-body-sm text-ink-secondary">
+                            <td className="whitespace-nowrap border border-hairline px-4 py-3 font-body-sm text-body-sm text-ink-secondary">
                               {getCategoryLabel(item.categoryId)}
                             </td>
                             <td className="border border-hairline px-4 py-3 font-body-md text-body-md text-ink-black">
                               {item.name}
                             </td>
-                            <td className="border border-hairline px-4 py-3 text-right font-body-md text-body-md text-ink-black">
+                            <td className="border border-hairline px-4 py-3 font-body-sm text-body-sm text-ink-black">
                               {formatFeeAmount(item)}
                             </td>
                             <td className="border border-hairline px-4 py-3 text-center font-body-sm text-body-sm text-ink-secondary">

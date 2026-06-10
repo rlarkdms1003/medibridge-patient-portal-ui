@@ -223,7 +223,11 @@ export default function AppointmentPage() {
                                   className="relative min-h-10 border border-hairline p-0 text-center"
                                 >
                                   <button
-                                    aria-label={`${doctor.name} ${formatDateLabel(date)} 예약`}
+                                    aria-label={
+                                      available
+                                        ? `${doctor.name} ${formatDateLabel(date)} 예약`
+                                        : `${doctor.name} ${formatDateLabel(date)} 휴진`
+                                    }
                                     className={`absolute inset-0 flex items-center justify-center transition-colors ${
                                       !available
                                         ? 'cursor-not-allowed bg-surface-container text-ink-muted'
@@ -236,7 +240,7 @@ export default function AppointmentPage() {
                                     onClick={() => handleSlotSelect(doctor.id, date, dateIndex)}
                                   >
                                     {!available && (
-                                      <span className="font-body-sm text-body-sm">-</span>
+                                      <span className="font-body-sm text-body-sm">휴진</span>
                                     )}
                                   </button>
                                 </td>

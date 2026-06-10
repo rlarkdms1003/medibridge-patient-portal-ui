@@ -228,8 +228,8 @@ export function formatFeeAmount(item: NonCoveredFeeItem): string {
     return `${item.amount.toLocaleString('ko-KR')}원`;
   }
 
-  if (item.minAmount !== undefined && item.maxAmount !== undefined) {
-    return `${item.minAmount.toLocaleString('ko-KR')} ~ ${item.maxAmount.toLocaleString('ko-KR')}원`;
+  if (item.minAmount !== undefined) {
+    return `${item.minAmount.toLocaleString('ko-KR')}원~`;
   }
 
   return '-';
