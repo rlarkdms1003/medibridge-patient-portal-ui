@@ -136,12 +136,12 @@ export default function AppointmentPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">인터넷 진료예약</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               아래 표에서 의료진과 진료 일정을 선택한 후, 진료 시간을 선택해 주세요.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-[2.2fr_1fr]">
             <div className="min-w-0 space-y-gutter">

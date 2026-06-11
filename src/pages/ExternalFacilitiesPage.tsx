@@ -122,13 +122,13 @@ export default function ExternalFacilitiesPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">외부 편의시설</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               {hospitalInfo.name} 주변(강남역·테헤란로 일대)에서 이용 가능한 식당, 매장, 약국 등을
               안내합니다. 병원과 무관한 인근 상가 정보입니다.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">

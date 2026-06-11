@@ -92,12 +92,12 @@ export default function ReservationConfirmPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">예약확인/취소</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               예약하신 진료 일정을 확인하고, 필요 시 예약을 취소할 수 있습니다.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">

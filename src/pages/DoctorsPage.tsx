@@ -67,7 +67,7 @@ export default function DoctorsPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <p className="mb-2 font-eyebrow text-eyebrow text-primary">{SPECIALTY_LABEL}</p>
             <h1 className="font-headline-1 text-headline-1 text-ink-black">의료진 소개</h1>
             <p className="mt-3 whitespace-pre-line font-body-md text-body-md text-ink-secondary">
@@ -83,7 +83,7 @@ export default function DoctorsPage() {
                 </li>
               ))}
             </ul>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">

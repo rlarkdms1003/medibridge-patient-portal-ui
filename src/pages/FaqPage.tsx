@@ -95,13 +95,13 @@ export default function FaqPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">FAQ</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               진료·예약·발급 등 자주 문의하시는 내용을 안내해 드립니다. 원하시는 답변을 찾지 못하신
               경우 예약센터로 문의해 주세요.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">

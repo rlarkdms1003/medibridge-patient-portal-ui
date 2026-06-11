@@ -47,7 +47,7 @@ function FaqAccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="border border-hairline">
+    <div className="rounded-xl border border-hairline">
       <button
         aria-expanded={isOpen}
         className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-colors hover:bg-surface-container-low md:px-6"
@@ -74,7 +74,7 @@ export default function MedicalRecordsCopyPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">
               의무기록 및 영상검사 사본발급
             </h1>
@@ -82,7 +82,7 @@ export default function MedicalRecordsCopyPage() {
             <p className="mt-2 font-body-md text-body-md text-ink-secondary">
               {medicalRecordsIntro.procedureNote}
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">

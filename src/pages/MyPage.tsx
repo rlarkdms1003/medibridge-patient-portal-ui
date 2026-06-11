@@ -710,12 +710,12 @@ export default function MyPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">마이페이지</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               예약·진료이력·회원정보를 한곳에서 확인하고 관리하실 수 있습니다.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-[240px_minmax(0,1fr)]">
             <aside className="h-fit space-y-1 border border-hairline bg-canvas-white p-3 lg:sticky lg:top-28">

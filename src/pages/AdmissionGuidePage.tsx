@@ -39,11 +39,11 @@ export default function AdmissionGuidePage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">입원절차</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">{admissionIntro.lead}</p>
             <p className="mt-2 font-body-md text-body-md text-ink-secondary">{admissionIntro.leadNote}</p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">

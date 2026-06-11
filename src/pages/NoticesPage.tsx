@@ -50,12 +50,12 @@ export default function NoticesPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">공지사항</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               병원 운영, 진료, 시설 관련 소식을 확인하실 수 있습니다.
             </p>
-          </div>
+          </header>
 
           <section className="border border-hairline bg-canvas-white">
             <div className="border-b border-hairline bg-surface-container-low p-4 md:p-6">

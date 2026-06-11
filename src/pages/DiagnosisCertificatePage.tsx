@@ -67,12 +67,12 @@ export default function DiagnosisCertificatePage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">진단서발급</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               진단서·소견서 및 제증명 발급 절차, 창구 위치, 구비 서류를 안내합니다.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">

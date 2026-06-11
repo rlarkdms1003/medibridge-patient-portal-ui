@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  :is(section, article, aside, a, dl, div).border.border-hairline.bg-canvas-white:not(input):not(textarea):not(select):not(button) {
+    @apply rounded-xl;
+  }
+
+  :is(article, dl, div).border.border-hairline.bg-surface-container-low:not(button) {
+    @apply rounded-xl;
+  }
+
+  :is(article, div).border.border-hairline.p-4:not(button),
+  :is(article, div).border.border-hairline.p-5:not(button) {
+    @apply rounded-xl;
+  }
+
+  div.border.border-hairline.bg-ink-black {
+    @apply overflow-hidden rounded-xl;
+  }
+}
+
 body {
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #f8f9fa;

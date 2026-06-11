@@ -21,12 +21,12 @@ export default function DirectionsPage() {
       <Header />
       <PageMain>
         <PageContainer>
-          <div className="mb-8 border border-hairline bg-canvas-white p-6 md:p-8">
+          <header className="mb-8">
             <h1 className="font-headline-1 text-headline-1 text-ink-black">오시는길</h1>
             <p className="mt-3 font-body-md text-body-md text-ink-secondary">
               MediBridge 재활정형외과로 오시는 길과 교통·주차 안내를 확인하실 수 있습니다.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 gap-gutter lg:grid-cols-3">
             <div className="space-y-gutter lg:col-span-2">
