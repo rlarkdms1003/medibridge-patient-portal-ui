@@ -28,7 +28,8 @@ export default function YearNavigator({ year, onYearChange }: YearNavigatorProps
       </span>
       <button
         aria-label="다음 연도"
-        className="flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-canvas-white transition-colors hover:border-primary"
+        className="flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-canvas-white transition-colors hover:border-primary disabled:cursor-not-allowed disabled:text-ink-muted disabled:hover:border-hairline"
+        disabled={isCurrentYear}
         type="button"
         onClick={() => onYearChange(year + 1)}
       >
