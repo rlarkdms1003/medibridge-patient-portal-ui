@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Icon from '../components/Icon';
 import PageContainer, { PageMain } from '../components/PageContainer';
 import ReservationDetailModal from '../components/ReservationDetailModal';
+import YearNavigator, { getCurrentYear } from '../components/YearNavigator';
 import { useAuth } from '../contexts/AuthContext';
 import { useReservations } from '../contexts/ReservationsContext';
 import {
@@ -186,6 +187,13 @@ function HomeSection({
 }
 
 function HistorySection() {
+  const [selectedYear, setSelectedYear] = useState(getCurrentYear);
+
+  const filteredHistory = useMemo(
+    () => medicalHistory.filter((visit) => visit.date.startsWith(String(selectedYear))),
+    [selectedYear],
+  );
+
   return (
     <div className="space-y-gutter">
       <div className="border border-hairline bg-canvas-white p-6 md:p-8">
@@ -194,6 +202,10 @@ function HistorySection() {
           본원에서 받으신 외래·입원·검진 진료 이력을 조회할 수 있습니다. 상세 검사 결과는 내원 시
           안내드립니다.
         </p>
+      </div>
+
+      <div className="flex justify-start">
+        <YearNavigator year={selectedYear} onYearChange={setSelectedYear} />
       </div>
 
       <div className="hidden overflow-x-auto border border-hairline bg-canvas-white md:block">
@@ -221,41 +233,58 @@ function HistorySection() {
             </tr>
           </thead>
           <tbody>
-            {medicalHistory.map((visit) => (
-              <tr key={visit.id} className="hover:bg-surface-container-low/60">
-                <td className="border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-black">
-                  {visit.date}
-                </td>
-                <td className="border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-black">
-                  {visit.doctorName} {visit.doctorTitle}
-                </td>
-                <td className="border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-secondary whitespace-nowrap">
-                  {visit.visitType}
-                </td>
-                <td className="border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-secondary">
-                  {visit.diagnosis}
+            {filteredHistory.length > 0 ? (
+              filteredHistory.map((visit) => (
+                <tr key={visit.id} className="hover:bg-surface-container-low/60">
+                  <td className="border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-black">
+                    {visit.date}
+                  </td>
+                  <td className="border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-black">
+                    {visit.doctorName} {visit.doctorTitle}
+                  </td>
+                  <td className="whitespace-nowrap border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-secondary">
+                    {visit.visitType}
+                  </td>
+                  <td className="border-b border-hairline px-4 py-4 font-body-sm text-body-sm text-ink-secondary">
+                    {visit.diagnosis}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  className="border-b border-hairline px-4 py-12 text-center font-body-md text-body-md text-ink-secondary"
+                  colSpan={4}
+                >
+                  선택한 연도의 진료 이력이 없습니다.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
 
       <div className="space-y-3 md:hidden">
-        {medicalHistory.map((visit) => (
-          <article key={visit.id} className="border border-hairline bg-canvas-white p-5">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="font-body-sm text-body-sm font-semibold text-ink-black">{visit.date}</span>
-              <span className="bg-surface-container-high px-2 py-1 font-eyebrow text-eyebrow text-ink-secondary">
-                {visit.visitType}
-              </span>
-            </div>
-            <p className="font-body-sm text-body-sm text-ink-black">
-              {visit.doctorName} {visit.doctorTitle}
-            </p>
-            <p className="mt-2 font-body-sm text-body-sm text-ink-secondary">{visit.diagnosis}</p>
-          </article>
-        ))}
+        {filteredHistory.length > 0 ? (
+          filteredHistory.map((visit) => (
+            <article key={visit.id} className="border border-hairline bg-canvas-white p-5">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="font-body-sm text-body-sm font-semibold text-ink-black">{visit.date}</span>
+                <span className="bg-surface-container-high px-2 py-1 font-eyebrow text-eyebrow text-ink-secondary">
+                  {visit.visitType}
+                </span>
+              </div>
+              <p className="font-body-sm text-body-sm text-ink-black">
+                {visit.doctorName} {visit.doctorTitle}
+              </p>
+              <p className="mt-2 font-body-sm text-body-sm text-ink-secondary">{visit.diagnosis}</p>
+            </article>
+          ))
+        ) : (
+          <div className="border border-hairline bg-canvas-white p-8 text-center font-body-md text-body-md text-ink-secondary">
+            선택한 연도의 진료 이력이 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );

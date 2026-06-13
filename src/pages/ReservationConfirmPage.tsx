@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Icon from '../components/Icon';
 import PageContainer, { PageMain } from '../components/PageContainer';
 import ReservationDetailModal from '../components/ReservationDetailModal';
+import YearNavigator, { getCurrentYear } from '../components/YearNavigator';
 import {
   reservationStatusLabel,
   reservationTabs,
@@ -20,11 +21,22 @@ export default function ReservationConfirmPage() {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [isCancelComplete, setIsCancelComplete] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(getCurrentYear);
 
-  const filteredReservations = useMemo(
+  const statusFilteredReservations = useMemo(
     () => reservations.filter((reservation) => reservation.status === activeTab),
     [activeTab, reservations],
   );
+
+  const filteredReservations = useMemo(() => {
+    if (activeTab !== 'completed') {
+      return statusFilteredReservations;
+    }
+
+    return statusFilteredReservations.filter((reservation) =>
+      reservation.date.startsWith(String(selectedYear)),
+    );
+  }, [activeTab, selectedYear, statusFilteredReservations]);
 
   const tabCounts = useMemo(
     () =>
@@ -66,6 +78,10 @@ export default function ReservationConfirmPage() {
     cancelReservation(selectedReservation.id);
     setIsCancelComplete(true);
   };
+
+  useEffect(() => {
+    setSelectedYear(getCurrentYear());
+  }, [activeTab]);
 
   useEffect(() => {
     const isModalOpen = isDetailModalOpen || isCancelModalOpen;
@@ -119,6 +135,12 @@ export default function ReservationConfirmPage() {
                     </button>
                   ))}
                 </div>
+
+                {activeTab === 'completed' && (
+                  <div className="mb-4 flex justify-start">
+                    <YearNavigator year={selectedYear} onYearChange={setSelectedYear} />
+                  </div>
+                )}
 
                 {filteredReservations.length > 0 ? (
                   <>
@@ -248,7 +270,10 @@ export default function ReservationConfirmPage() {
                     <Icon className="mb-4 text-5xl text-ink-muted" name="event_busy" />
                     <p className="font-body-md text-body-md text-ink-secondary">
                       {activeTab === 'scheduled' && '예정된 예약 내역이 없습니다.'}
-                      {activeTab === 'completed' && '지난 예약 내역이 없습니다.'}
+                      {activeTab === 'completed' &&
+                        (statusFilteredReservations.length > 0
+                          ? '선택한 연도의 지난 예약 내역이 없습니다.'
+                          : '지난 예약 내역이 없습니다.')}
                       {activeTab === 'cancelled' && '취소된 예약 내역이 없습니다.'}
                     </p>
                     {activeTab === 'scheduled' && (
