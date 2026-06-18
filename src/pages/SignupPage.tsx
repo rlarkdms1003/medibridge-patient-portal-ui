@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Icon from '../components/Icon';
 import { useAuth } from '../contexts/AuthContext';
+import { lookupPatientNumberByResidentNumber } from '../data/patientLookupData';
 
 export default function SignupPage() {
   const { login } = useAuth();
@@ -12,10 +13,14 @@ export default function SignupPage() {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [patientNumber, setPatientNumber] = useState('');
   const [phone, setPhone] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [isLookupModalOpen, setIsLookupModalOpen] = useState(false);
+  const [residentNumber, setResidentNumber] = useState('');
+  const [lookupError, setLookupError] = useState('');
   const [error, setError] = useState('');
 
   const handlePhoneChange = (value: string) => {
@@ -24,6 +29,35 @@ export default function SignupPage() {
     setVerificationCode('');
     setIsPhoneVerified(false);
     setError('');
+  };
+
+  const openLookupModal = () => {
+    setResidentNumber('');
+    setLookupError('');
+    setIsLookupModalOpen(true);
+  };
+
+  const closeLookupModal = () => {
+    setIsLookupModalOpen(false);
+    setResidentNumber('');
+    setLookupError('');
+  };
+
+  const handleLookupPatientNumber = () => {
+    if (!residentNumber.trim()) {
+      setLookupError('주민번호를 입력해 주세요.');
+      return;
+    }
+
+    const foundPatientNumber = lookupPatientNumberByResidentNumber(residentNumber.trim());
+    if (!foundPatientNumber) {
+      setLookupError('주민번호를 입력해 주세요.');
+      return;
+    }
+
+    setPatientNumber(foundPatientNumber);
+    setError('');
+    closeLookupModal();
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,6 +92,7 @@ export default function SignupPage() {
       {
         name: name.trim(),
         userId: userId.trim(),
+        patientNumber: patientNumber.trim() || undefined,
         phone: phone.trim(),
         loginType: 'member',
       },
@@ -82,6 +117,22 @@ export default function SignupPage() {
     setIsPhoneVerified(true);
     setError('');
   };
+
+  useEffect(() => {
+    if (!isLookupModalOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeLookupModal();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isLookupModalOpen]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-ink-black antialiased selection:bg-primary-container selection:text-white">
@@ -150,6 +201,32 @@ export default function SignupPage() {
             </div>
 
             <div>
+              <label
+                className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black"
+                htmlFor="patientNumber"
+              >
+                환자번호
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="patientNumber"
+                  className="min-w-0 flex-1 border border-hairline bg-canvas-white px-4 py-3 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary"
+                  placeholder="환자번호 검색으로 조회하세요"
+                  type="text"
+                  value={patientNumber}
+                  readOnly
+                />
+                <button
+                  className="w-[8.75rem] shrink-0 whitespace-nowrap border border-hairline bg-surface-container px-4 py-3 font-button text-button text-ink-black transition-colors hover:border-primary hover:text-primary"
+                  type="button"
+                  onClick={openLookupModal}
+                >
+                  환자번호검색
+                </button>
+              </div>
+            </div>
+
+            <div>
               <label className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black" htmlFor="phone">
                 휴대전화번호
               </label>
@@ -164,7 +241,7 @@ export default function SignupPage() {
                   autoComplete="tel"
                 />
                 <button
-                  className="shrink-0 border border-hairline bg-surface-container px-4 py-3 font-button text-button text-ink-black transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-[8.75rem] shrink-0 whitespace-nowrap border border-hairline bg-surface-container px-4 py-3 font-button text-button text-ink-black transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
                   type="button"
                   onClick={handleSendCode}
                   disabled={!phone.trim()}
@@ -226,6 +303,70 @@ export default function SignupPage() {
         </div>
       </main>
       <Footer />
+
+      {isLookupModalOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-black/50 px-margin-mobile py-8"
+          role="presentation"
+          onClick={closeLookupModal}
+        >
+          <div
+            aria-labelledby="patient-lookup-title"
+            aria-modal="true"
+            className="w-full max-w-md border border-hairline bg-canvas-white p-6 shadow-[0_8px_24px_rgba(0,0,0,0.15)] md:p-8"
+            role="dialog"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h2 className="font-headline-1 text-headline-1 text-ink-black" id="patient-lookup-title">
+              환자번호 조회
+            </h2>
+            <p className="mt-3 font-body-md text-body-md text-ink-secondary">
+              주민번호를 입력하시면 본원 환자번호를 조회할 수 있습니다.
+            </p>
+
+            <div className="mt-6">
+              <label
+                className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black"
+                htmlFor="residentNumber"
+              >
+                주민번호
+              </label>
+              <input
+                id="residentNumber"
+                className="w-full border border-hairline bg-canvas-white px-4 py-3 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary"
+                placeholder="000000-0000000"
+                type="text"
+                inputMode="numeric"
+                value={residentNumber}
+                onChange={(event) => {
+                  setResidentNumber(event.target.value);
+                  setLookupError('');
+                }}
+                autoComplete="off"
+              />
+            </div>
+
+            {lookupError && <p className="mt-3 font-body-sm text-body-sm text-error">{lookupError}</p>}
+
+            <div className="mt-6 flex gap-3">
+              <button
+                className="flex-1 border border-hairline px-6 py-4 font-button text-button text-ink-black transition-colors hover:border-primary"
+                type="button"
+                onClick={closeLookupModal}
+              >
+                닫기
+              </button>
+              <button
+                className="flex-1 bg-secondary px-6 py-4 font-button text-button text-on-secondary transition-opacity hover:opacity-90"
+                type="button"
+                onClick={handleLookupPatientNumber}
+              >
+                주민번호 검색
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
