@@ -73,9 +73,9 @@ export default function LoginPage() {
             <Link className="text-primary hover:underline" to="/signup">
               회원가입
             </Link>
-            <a className="text-ink-secondary hover:text-primary hover:underline" href="#">
+            <Link className="text-ink-secondary hover:text-primary hover:underline" to="/login/find-account">
               아이디/비밀번호 찾기
-            </a>
+            </Link>
           </div>
 
           <div className="mt-6">
