@@ -9,16 +9,43 @@ import {
   formatDate,
   formatDateLabel,
   formatMonthYear,
+  getAllTimeSlots,
+  getAppointmentSlotStatus,
   getCalendarDates,
   getInitialCalendarStart,
   isSlotAvailable,
   isToday,
   timeSlots,
+  type AppointmentSlotStatus,
 } from '../data/appointmentData';
 import { useReservations } from '../contexts/ReservationsContext';
-import { isTimeSlotTaken } from '../data/reservationHistoryData';
+import { isTimeSlotTaken, type Reservation } from '../data/reservationHistoryData';
 
 type TimePeriod = 'morning' | 'afternoon';
+
+function resolveSlotStatus(
+  doctorId: string,
+  doctorName: string,
+  date: Date,
+  dateIndex: number,
+  reservations: Reservation[],
+): AppointmentSlotStatus {
+  const status = getAppointmentSlotStatus(doctorId, dateIndex);
+  if (status !== 'available') return status;
+
+  const dateLabel = formatDate(date);
+  const isFullyBooked = getAllTimeSlots().every((time) =>
+    isTimeSlotTaken(reservations, doctorName, dateLabel, time),
+  );
+
+  return isFullyBooked ? 'full' : 'available';
+}
+
+function slotStatusLabel(status: AppointmentSlotStatus): string {
+  if (status === 'closed') return '휴진';
+  if (status === 'full') return '마감';
+  return '예약';
+}
 
 export default function AppointmentPage() {
   const { reservations, addReservation } = useReservations();
@@ -240,7 +267,13 @@ export default function AppointmentPage() {
                               </button>
                             </td>
                             {calendarDates.map((date, dateIndex) => {
-                              const available = isSlotAvailable(doctor.id, dateIndex);
+                              const slotStatus = resolveSlotStatus(
+                                doctor.id,
+                                doctor.name,
+                                date,
+                                dateIndex,
+                                reservations,
+                              );
                               const isSelected =
                                 doctorId === doctor.id &&
                                 selectedDate?.toDateString() === date.toDateString();
@@ -251,24 +284,24 @@ export default function AppointmentPage() {
                                   className="relative min-h-10 border border-hairline p-0 text-center"
                                 >
                                   <button
-                                    aria-label={
-                                      available
-                                        ? `${doctor.name} ${formatDateLabel(date)} 예약`
-                                        : `${doctor.name} ${formatDateLabel(date)} 휴진`
-                                    }
+                                    aria-label={`${doctor.name} ${formatDateLabel(date)} ${slotStatusLabel(slotStatus)}`}
                                     className={`absolute inset-0 flex items-center justify-center transition-colors ${
-                                      !available
-                                        ? 'cursor-not-allowed bg-surface-container text-ink-muted'
-                                        : isSelected
-                                          ? 'bg-primary text-on-primary'
-                                          : 'bg-canvas-white hover:bg-primary-fixed'
+                                      slotStatus === 'full'
+                                        ? 'appointment-slot-hatch'
+                                        : slotStatus === 'closed'
+                                          ? 'cursor-not-allowed bg-surface-container text-ink-muted'
+                                          : isSelected
+                                            ? 'bg-primary text-on-primary'
+                                            : 'bg-canvas-white hover:bg-primary-fixed'
                                     }`}
-                                    disabled={!available}
+                                    disabled={slotStatus !== 'available'}
                                     type="button"
                                     onClick={() => handleSlotSelect(doctor.id, date, dateIndex)}
                                   >
-                                    {!available && (
-                                      <span className="font-body-sm text-body-sm">휴진</span>
+                                    {slotStatus !== 'available' && (
+                                      <span className="relative z-10 font-body-sm text-body-sm">
+                                        {slotStatusLabel(slotStatus)}
+                                      </span>
                                     )}
                                   </button>
                                 </td>
@@ -327,12 +360,12 @@ export default function AppointmentPage() {
                             key={time}
                             aria-label={
                               isTaken
-                                ? `${time} 선택 불가`
+                                ? `${time} 예약 마감`
                                 : `${time} 선택`
                             }
                             className={`border px-3 py-3 font-body-md text-body-md transition-colors ${
                               isTaken
-                                ? 'cursor-not-allowed border-hairline bg-surface-container text-ink-muted'
+                                ? 'appointment-slot-hatch'
                                 : selectedTime === time
                                   ? 'border-primary bg-primary text-on-primary'
                                   : 'border-hairline bg-canvas-white text-ink-black hover:border-primary'
@@ -346,7 +379,7 @@ export default function AppointmentPage() {
                               setIsBookingComplete(false);
                             }}
                           >
-                            {time}
+                            {isTaken ? '마감' : time}
                           </button>
                         );
                       })}

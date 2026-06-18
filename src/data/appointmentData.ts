@@ -19,12 +19,35 @@ export const timeSlots = {
   afternoon: ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30'],
 };
 
-const unavailableSlots: Record<string, string[]> = {
-  kim: [],
-  lee: ['0', '3'],
-  park: ['1', '5'],
-  choi: ['2', '4', '6'],
+export type AppointmentSlotStatus = 'available' | 'closed' | 'full';
+
+const closedSlots: Record<string, string[]> = {
+  kim: ['6'],
+  lee: ['3'],
+  park: ['8'],
+  choi: [],
 };
+
+const fullSlots: Record<string, string[]> = {
+  kim: ['9'],
+  lee: [],
+  park: ['5'],
+  choi: ['7'],
+};
+
+export function getAppointmentSlotStatus(doctorId: string, dateIndex: number): AppointmentSlotStatus {
+  if (closedSlots[doctorId]?.includes(String(dateIndex))) return 'closed';
+  if (fullSlots[doctorId]?.includes(String(dateIndex))) return 'full';
+  return 'available';
+}
+
+export function isSlotAvailable(doctorId: string, dateIndex: number): boolean {
+  return getAppointmentSlotStatus(doctorId, dateIndex) === 'available';
+}
+
+export function getAllTimeSlots(): string[] {
+  return [...timeSlots.morning, ...timeSlots.afternoon];
+}
 
 export function getCalendarDates(baseDate: Date, count = 14): Date[] {
   const dates: Date[] = [];
@@ -45,10 +68,6 @@ export function getInitialCalendarStart(): Date {
   tomorrow.setDate(tomorrow.getDate() + 1);
   tomorrow.setHours(0, 0, 0, 0);
   return tomorrow;
-}
-
-export function isSlotAvailable(doctorId: string, dateIndex: number): boolean {
-  return !unavailableSlots[doctorId]?.includes(String(dateIndex));
 }
 
 export function formatDate(date: Date): string {
