@@ -129,7 +129,11 @@ export function reservationDateTimeValue(reservation: Reservation): number {
 export function sortScheduledReservations(reservations: Reservation[]): Reservation[] {
   return reservations
     .filter((reservation) => reservation.status === 'scheduled')
-    .sort((a, b) => reservationDateTimeValue(a) - reservationDateTimeValue(b));
+    .sort((a, b) => {
+      const bookedCompare = b.bookedAt.localeCompare(a.bookedAt);
+      if (bookedCompare !== 0) return bookedCompare;
+      return reservationDateTimeValue(b) - reservationDateTimeValue(a);
+    });
 }
 
 export function generateReservationId(reservations: Reservation[]): string {
