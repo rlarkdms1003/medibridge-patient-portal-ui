@@ -338,114 +338,6 @@ function ProfileModal({
 const profileInputClassName =
   'w-full border border-hairline bg-canvas-white px-4 py-3 font-body-md text-body-md text-ink-black outline-none transition-colors focus:border-primary';
 
-function PasswordChangeModal({ onClose }: { onClose: () => void }) {
-  const { changePassword } = useAuth();
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isComplete, setIsComplete] = useState(false);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const result = changePassword({ currentPassword, newPassword, confirmPassword });
-    if (!result.success) {
-      setError(result.message);
-      return;
-    }
-    setError('');
-    setIsComplete(true);
-  };
-
-  if (isComplete) {
-    return (
-      <ProfileModal title="비밀번호 변경" onClose={onClose}>
-        <div className="mt-6 text-center">
-          <Icon className="mb-4 text-5xl text-primary" name="check_circle" />
-          <p className="font-body-md text-body-md text-ink-secondary">비밀번호가 변경되었습니다.</p>
-        </div>
-        <button
-          className="mt-8 w-full bg-secondary px-6 py-4 font-button text-button text-on-secondary transition-opacity hover:opacity-90"
-          type="button"
-          onClick={onClose}
-        >
-          확인
-        </button>
-      </ProfileModal>
-    );
-  }
-
-  return (
-    <ProfileModal title="비밀번호 변경" onClose={onClose}>
-      <p className="mt-3 font-body-md text-body-md text-ink-secondary">
-        현재 비밀번호를 입력한 후 새 비밀번호를 설정해 주세요.
-      </p>
-      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <label className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black" htmlFor="currentPassword">
-            현재 비밀번호
-          </label>
-          <input
-            autoComplete="current-password"
-            className={profileInputClassName}
-            id="currentPassword"
-            type="password"
-            value={currentPassword}
-            onChange={(event) => setCurrentPassword(event.target.value)}
-          />
-        </div>
-        <div>
-          <label className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black" htmlFor="newPassword">
-            새 비밀번호
-          </label>
-          <input
-            autoComplete="new-password"
-            className={profileInputClassName}
-            id="newPassword"
-            minLength={4}
-            type="password"
-            value={newPassword}
-            onChange={(event) => setNewPassword(event.target.value)}
-          />
-        </div>
-        <div>
-          <label
-            className="mb-2 block font-body-sm text-body-sm font-semibold text-ink-black"
-            htmlFor="confirmPassword"
-          >
-            새 비밀번호 확인
-          </label>
-          <input
-            autoComplete="new-password"
-            className={profileInputClassName}
-            id="confirmPassword"
-            minLength={4}
-            type="password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-          />
-        </div>
-        {error && <p className="font-body-sm text-body-sm text-error">{error}</p>}
-        <div className="flex gap-3 pt-2">
-          <button
-            className="flex-1 border border-hairline px-6 py-4 font-button text-button text-ink-black transition-colors hover:border-primary"
-            type="button"
-            onClick={onClose}
-          >
-            취소
-          </button>
-          <button
-            className="flex-1 bg-primary px-6 py-4 font-button text-button text-canvas-white transition-opacity hover:opacity-90"
-            type="submit"
-          >
-            변경하기
-          </button>
-        </div>
-      </form>
-    </ProfileModal>
-  );
-}
-
 function ProfileEditModal({ onClose }: { onClose: () => void }) {
   const { user, updateUser } = useAuth();
   const [name, setName] = useState(user?.name ?? '');
@@ -624,16 +516,21 @@ function ProfileEditModal({ onClose }: { onClose: () => void }) {
 
 function ProfileSection() {
   const { user } = useAuth();
-  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   if (!user) return null;
 
+  const formattedBirthDate = user.birthDate
+    ? user.birthDate.length === 8
+      ? `${user.birthDate.slice(0, 4)}.${user.birthDate.slice(4, 6)}.${user.birthDate.slice(6, 8)}`
+      : user.birthDate
+    : '-';
+
   const infoRows = [
     { label: '이름', value: user.name },
-    { label: '회원구분', value: user.loginType === 'member' ? '정회원' : '비회원' },
-    { label: '아이디', value: user.userId ?? '-' },
+    { label: '환자구분', value: '재진환자' },
     { label: '환자번호', value: maskPatientNumber(user.patientNumber ?? '12345678') },
+    { label: '생년월일', value: formattedBirthDate },
     { label: '휴대전화', value: maskPhone(user.phone ?? '01012345678') },
   ];
 
@@ -659,15 +556,6 @@ function ProfileSection() {
         </dl>
         <hr className="my-6 border-0 border-t border-hairline" />
         <div className="flex w-full gap-4 sm:w-auto">
-          {user.loginType === 'member' && (
-            <button
-              className="flex-1 border border-outline bg-surface-container-lowest px-6 py-3 text-center font-button text-button text-ink-black transition-colors hover:bg-surface-container-low sm:flex-none"
-              type="button"
-              onClick={() => setIsPasswordModalOpen(true)}
-            >
-              비밀번호 변경
-            </button>
-          )}
           <button
             className="flex-1 bg-primary px-6 py-3 text-center font-button text-button text-canvas-white shadow-sm transition-colors hover:bg-tertiary sm:flex-none"
             type="button"
@@ -678,7 +566,6 @@ function ProfileSection() {
         </div>
       </div>
 
-      {isPasswordModalOpen && <PasswordChangeModal onClose={() => setIsPasswordModalOpen(false)} />}
       {isProfileModalOpen && <ProfileEditModal onClose={() => setIsProfileModalOpen(false)} />}
     </div>
   );

@@ -133,12 +133,6 @@ export default function Header() {
             <>
               <Link
                 className="font-body-sm text-body-sm transition-colors hover:text-primary-fixed"
-                to="/signup"
-              >
-                회원가입
-              </Link>
-              <Link
-                className="font-body-sm text-body-sm transition-colors hover:text-primary-fixed"
                 to="/login"
               >
                 로그인

@@ -11,8 +11,6 @@ import DiagnosisCertificatePage from './pages/DiagnosisCertificatePage';
 import DoctorsPage from './pages/DoctorsPage';
 import ExternalFacilitiesPage from './pages/ExternalFacilitiesPage';
 import FaqPage from './pages/FaqPage';
-import FindAccountPage from './pages/FindAccountPage';
-import GuestLoginPage from './pages/GuestLoginPage';
 import HomePage from './pages/HomePage';
 import InpatientLifeGuidePage from './pages/InpatientLifeGuidePage';
 import InternalFacilitiesPage from './pages/InternalFacilitiesPage';
@@ -23,7 +21,6 @@ import NoticesPage from './pages/NoticesPage';
 import MedicalBillPage from './pages/MedicalBillPage';
 import MedicalRecordsCopyPage from './pages/MedicalRecordsCopyPage';
 import MyPage from './pages/MyPage';
-import SignupPage from './pages/SignupPage';
 import VisitationGuidePage from './pages/VisitationGuidePage';
 
 export default function App() {
@@ -51,10 +48,7 @@ export default function App() {
       <Route path="/facilities/internal" element={<InternalFacilitiesPage />} />
       <Route path="/facilities/external" element={<ExternalFacilitiesPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/login/find-account" element={<FindAccountPage />} />
-      <Route path="/login/guest" element={<GuestLoginPage />} />
       <Route path="/visitation" element={<VisitationGuidePage />} />
-      <Route path="/signup" element={<SignupPage />} />
       <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </>

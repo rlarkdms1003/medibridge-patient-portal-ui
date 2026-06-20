@@ -33,7 +33,7 @@ export const reservationMethods: ReservationMethod[] = [
     title: '인터넷예약',
     icon: 'language',
     description:
-      '홈페이지 회원가입 후 이용하실 수 있습니다. 병원 환자 중 회원가입이 되어 있지 않은 경우 비회원 로그인 후 인터넷 예약을 이용하실 수 있습니다.',
+      '본원 재진 환자는 휴대전화 인증과 생년월일로 로그인한 뒤 인터넷 예약을 이용하실 수 있습니다.',
     details: ['인터넷 예약은 24시간 이용 가능합니다.'],
     links: [{ label: '인터넷 예약하기', href: '/reservation' }],
   },
